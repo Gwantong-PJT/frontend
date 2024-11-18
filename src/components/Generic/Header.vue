@@ -6,8 +6,7 @@ import { RouterLink } from 'vue-router';
   <header>
     <div class="wrapper">
       <nav>
-        <RouterLink to="/">Home</RouterLink><br />
-        <RouterLink to="/login">Login</RouterLink><br />
+        <RouterLink to="/main">Home</RouterLink><br />
         <RouterLink to="/hotplace">Hotplace</RouterLink><br />
         <RouterLink to="/notice">Notice</RouterLink><br />
         <RouterLink to="/mypage">Mypage</RouterLink><br />

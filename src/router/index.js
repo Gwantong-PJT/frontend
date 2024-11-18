@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from "@/views/Home.vue"
-import LoginView from "@/views/LoginView.vue"
+import LoginView from "@/views/Login.vue"
 import Hotplace from "@/views/Hotplace.vue"
 import Mypage from "@/views/Mypage.vue"
 import Notice from "@/views/Notice.vue"
@@ -11,13 +11,13 @@ const router = createRouter({
   routes: [
     {
       path: '/',
-      name: 'home',
-      component: Home,
-    },
-    {
-      path: '/login',
       name: 'login',
       component: LoginView,
+    },
+    {
+      path: '/main',
+      name: 'main',
+      component: Home,
     },
     {
       path: '/hotplace',
