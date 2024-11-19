@@ -1,10 +1,10 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import Home from "@/views/Home.vue"
-import LoginView from "@/views/Login.vue"
-import Hotplace from "@/views/Hotplace.vue"
-import Mypage from "@/views/Mypage.vue"
-import Notice from "@/views/Notice.vue"
-
+import Home from '@/views/Home.vue'
+import LoginView from '@/views/Login.vue'
+import Hotplace from '@/views/Hotplace.vue'
+import Mypage from '@/views/Mypage.vue'
+import Notice from '@/views/Notice.vue'
+import Search from '@/views/Search.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,6 +33,11 @@ const router = createRouter({
       path: '/mypage',
       name: 'mypage',
       component: Mypage,
+    },
+    {
+      path: '/search',
+      name: 'search',
+      component: Search,
     },
   ],
 })
