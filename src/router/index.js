@@ -23,6 +23,24 @@ const router = createRouter({
       path: '/hotplace',
       name: 'hotplace',
       component: Hotplace,
+      redirect: { name: 'hotplace-list' },
+      children: [
+        {
+          path: 'list',
+          name: 'hotplace-list',
+          component: () => import('@/components/Hotplace/HotplaceList.vue'),
+        },
+        {
+          path: 'view/:hotplaceNo',
+          name: 'hotplace-view',
+          component: () => import('@/components/Hotplace/HotplaceDetail.vue'),
+        },
+        {
+          path: 'write',
+          name: 'hotplace-write',
+          component: () => import('@/components/Hotplace/HotplaceWrite.vue'),
+        },
+      ],
     },
     {
       path: '/notice',

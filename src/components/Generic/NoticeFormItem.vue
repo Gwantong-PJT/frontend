@@ -2,13 +2,14 @@
 import { ref } from 'vue'
 import axios from 'axios'
 
-const noticeTitle = ref('') // noticeTitle을 ref로 정의
-const noticeText = ref('') // noticeText를 ref로 정의
+const noticeTitle = ref('') 
+const noticeText = ref('') 
 
 const submitForm = async () => {
   const postData = {
     noticeTitle: noticeTitle.value, // ref의 값을 사용
     noticeText: noticeText.value, // ref의 값을 사용
+    noticeFile: noticeFile.value,
     userNo: 1,
   }
 
@@ -37,6 +38,10 @@ const submitForm = async () => {
       <label for="noticeText">내용</label>
       <textarea v-model="noticeText" id="noticeText" required></textarea>
     </div>
+    <div class="noticeFile">
+    <input id="noticeFile" type="file" @change="handleFileChange"/>
+    <label class="custom-file-label" for="noticeFile">{{noticeFile}}</label>
+  </div>
     <button type="submit">등록</button>
   </form>
 </template>

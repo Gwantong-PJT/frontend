@@ -4,7 +4,7 @@ import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 import VSelect from '@/components/common/VSelect.vue'
-import BoardListItem from '@/components/Generic/NoticeListItem.vue'
+import HotplaceListItem from '../Generic/HotplaceListItem.vue'
 import VPageNavigation from '@/components/common/VPageNavigation.vue'
 
 const router = useRouter()
@@ -16,15 +16,14 @@ const selectOption = ref([
   { text: '작성자아이디', value: 'user_id' },
 ])
 
-const articles = ref([])
+const hotplaces = ref([])
 const currentPage = ref(1)
 const totalPage = ref(0)
 
-const getArticleList = async () => {
+const getHotplaceList = async () => {
   try {
-    const response = await axios.get('/notice/')
-    articles.value = response.data
-    // console.log(articles.value)
+    const response = await axios.get('/hotplace/')
+    hotplaces.value = response.data
     if (response.status === 200) {
       console.log('pass')
     } else {
@@ -46,7 +45,7 @@ const param = ref({
 })
 
 onMounted(() => {
-  getArticleList()
+    getHotplaceList()
 })
 
 const changeKey = (val) => {
@@ -57,20 +56,23 @@ const changeKey = (val) => {
 const onPageChange = (val) => {
   currentPage.value = val
   param.value.pgno = val
-  getArticleList()
+  getHotplaceList()
 }
 
 const moveWrite = () => {
-  router.push({ name: 'article-write' })
+  router.push({ name: 'hotplace-write' })
 }
+
+
 </script>
 
 <template>
-  <div class="container">
+    <div>
+        <div class="container">
     <div class="row justify-content-center">
       <div class="title">
         <h2>
-          공지사항
+          핫플
         </h2>
       </div>
       <div class="content">
@@ -80,7 +82,7 @@ const moveWrite = () => {
             <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
             <div class="search-input">
               <input type="text" v-model="param.word" placeholder="검색어..." />
-              <button type="button" @click="getArticleList">검색</button>
+              <button type="button" @click="getHotplaceList">검색</button>
             </div>
           </form>
         </div>
@@ -96,11 +98,11 @@ const moveWrite = () => {
             </tr>
           </thead>
           <tbody>
-            <BoardListItem
-              v-for="article in articles"
-              :key="article.noticeNo"
-              :article="article"
-            ></BoardListItem>
+            <HotplaceListItem
+              v-for="hotplace in hotplaces"
+              :key="hotplace.hotplaceNo"
+              :hotplace="hotplace"
+            ></HotplaceListItem>
           </tbody>
         </table>
         <hr>
@@ -112,6 +114,7 @@ const moveWrite = () => {
       ></VPageNavigation>
     </div>
   </div>
+    </div>
 </template>
 
 <style scoped>
@@ -199,4 +202,5 @@ const moveWrite = () => {
 .board-table tbody tr:hover {
   background-color: #f1f1f1;
 }
+
 </style>

@@ -1,11 +1,10 @@
 <script setup>
+import HotplaceList from '@/components/Hotplace/HotplaceList.vue';
 
 </script>
 
 <template>
-    <div>
-        <h1>핫플 페이지</h1>
-    </div>
+    <HotplaceList></HotplaceList>
 </template>
 
 <style scoped>
