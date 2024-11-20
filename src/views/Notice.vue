@@ -1,13 +1,11 @@
 <script setup>
-
+import NoticeList from '@/components/Notice/NoticeList.vue'
 </script>
 
 <template>
-    <div>
-        <h1>공지사항 페이지</h1>
-    </div>
+  <div>
+    <router-view></router-view>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

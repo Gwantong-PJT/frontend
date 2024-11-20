@@ -28,6 +28,29 @@ const router = createRouter({
       path: '/notice',
       name: 'notice',
       component: Notice,
+      redirect: { name: 'article-list' },
+      children: [
+        {
+          path: 'list',
+          name: 'article-list',
+          component: () => import('@/components/Notice/NoticeList.vue'),
+        },
+        {
+          path: 'view/:noticeNo',
+          name: 'article-view',
+          component: () => import('@/components/Notice/NoticeDetail.vue'),
+        },
+        {
+          path: 'write',
+          name: 'article-write',
+          component: () => import('@/components/Notice/NoticeWrite.vue'),
+        },
+        {
+          path: 'modify/:noticeNo',
+          name: 'article-modify',
+          component: () => import('@/components/Notice/NoticeModify.vue'),
+        },
+      ],
     },
     {
       path: '/mypage',
