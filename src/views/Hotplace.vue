@@ -1,12 +1,9 @@
 <script setup>
-import HotplaceList from '@/components/Hotplace/HotplaceList.vue';
-
+import HotplaceList from '@/components/Hotplace/HotplaceList.vue'
 </script>
 
 <template>
-    <HotplaceList></HotplaceList>
+  <router-view></router-view>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,7 +1,11 @@
 <script setup>
-import { ref, defineEmits } from 'vue'
+import { ref, defineEmits, onMounted } from 'vue'
+import VSelect from '../common/VSelect.vue'
+import axios from 'axios'
 
 const emit = defineEmits()
+const ageList = ref([{ text: '연령선택', value: '' }])
+const sidoList = ref([{ text: '지역선택', value: '' }])
 
 const name = ref('')
 const userId = ref('')
@@ -10,7 +14,61 @@ const passwordChk = ref('')
 const email = ref('')
 const gender = ref('')
 const age = ref('')
-const preferredLocation = ref('')
+const sido = ref('')
+
+// 나이 리스트 가져오기 함수
+const fetchAgeList = async () => {
+  console.log('http://192.168.203.121:8520/list/age')
+  const response = await axios.get('http://192.168.203.121:8520/list/age')
+  if (response.status === 200) {
+    console.log(response.data)
+    const res = response.data
+    for (const data of res) {
+      const newData = {
+        text: data.ageNo,
+        value: data.ageValue,
+      }
+      ageList.value.push(newData)
+    }
+  }
+}
+
+// 나이 선택 시 처리 함수
+const onChangeAge = (selectedValue) => {
+  age.value = selectedValue
+  console.log('선택된 나이:', selectedValue)
+}
+
+onMounted(() => {
+  fetchAgeList()
+})
+
+// 선호 지역 가져오기
+const fetchSidoList = async () => {
+  console.log('http://192.168.203.121:8520/list/sido')
+  const response = await axios.get('http://192.168.203.121:8520/list/sido')
+  if (response.status === 200) {
+    console.log(response.data)
+    const res = response.data
+    for (const data of res) {
+      const newData = {
+        text: data.sidoCode,
+        value: data.sidoName,
+      }
+      sidoList.value.push(newData)
+    }
+  }
+}
+
+// 지역 선택 시 처리 함수
+const onChangeSido = (selectedValue) => {
+  sido.value = selectedValue
+  console.log('선택된 지역:', selectedValue)
+}
+
+onMounted(() => {
+  fetchSidoList()
+})
 
 const handleSignUp = () => {
   if (
@@ -19,8 +77,8 @@ const handleSignUp = () => {
     !password.value ||
     !passwordChk.value ||
     !email.value ||
-    !age.value ||
-    !preferredLocation.value
+    !age.text ||
+    !sido.text
   ) {
     alert('모든 필드를 입력해주세요.')
     return
@@ -67,41 +125,21 @@ const handleSignUp = () => {
       </div>
       <br />
       <div>
-        <label>연령</label>
-        <select v-model="age">
-          <option value="1">10대</option>
-          <option value="2">20대</option>
-          <option value="3">30대</option>
-          <option value="4">40대</option>
-          <option value="5">50대</option>
-          <option value="6">60대</option>
-          <option value="7">70대</option>
-          <option value="8">80대</option>
-          <option value="9">90대</option>
-        </select>
+        <label for="age">연령</label>
+        <div class="filters">
+          <div class="filter-item">
+            <VSelect :select-option="ageList" @on-key-select="onChangeAge" id="age"></VSelect>
+          </div>
+        </div>
         <br />
       </div>
       <div>
-        <label>선호 지역</label>
-        <select v-model="preferredLocation">
-          <option value="1">서울</option>
-          <option value="2">인천</option>
-          <option value="3">대전</option>
-          <option value="4">대구</option>
-          <option value="5">광주</option>
-          <option value="6">부산</option>
-          <option value="7">울산</option>
-          <option value="8">세종특별자치시</option>
-          <option value="9">경기도</option>
-          <option value="10">강원특별자치도</option>
-          <option value="11">충청북도</option>
-          <option value="12">충청남도</option>
-          <option value="13">경상북도</option>
-          <option value="14">경상남도</option>
-          <option value="15">전라북도</option>
-          <option value="16">전라남도</option>
-          <option value="17">제주도</option>
-        </select>
+        <label for="sido">선호 지역</label>
+        <div class="filters">
+          <div class="filter-item">
+            <VSelect :select-option="sidoList" @on-key-select="onChangeSido" id="sido"></VSelect>
+          </div>
+        </div>
         <br />
       </div>
       <div class="btn-container">

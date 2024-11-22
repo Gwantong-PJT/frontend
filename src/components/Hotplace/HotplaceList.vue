@@ -1,17 +1,17 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
 import axios from 'axios'
 
 import VSelect from '@/components/common/VSelect.vue'
-import HotplaceListItem from '../Generic/HotplaceListItem.vue'
+import HotplaceListItem from '@/components/Generic/HotplaceListItem.vue'
 import VPageNavigation from '@/components/common/VPageNavigation.vue'
 
 const router = useRouter()
 
 const selectOption = ref([
   { text: '검색조건', value: '' },
-  { text: '글번호', value: 'noticeNo' },
+  { text: '글번호', value: 'hotplaceNo' },
   { text: '제목', value: 'subject' },
   { text: '작성자아이디', value: 'user_id' },
 ])
@@ -24,8 +24,10 @@ const getHotplaceList = async () => {
   try {
     const response = await axios.get('/hotplace/')
     hotplaces.value = response.data
+
     if (response.status === 200) {
-      console.log('pass')
+      console.log('데이터 로딩 성공')
+      console.log('hotplaces:', hotplaces.value)
     } else {
       console.error('데이터 패치 오류')
     }
@@ -36,16 +38,20 @@ const getHotplaceList = async () => {
   }
 }
 
+watch(hotplaces, () => {
+  console.log(hotplaces.value)
+})
+
 const { VITE_ARTICLE_LIST_SIZE } = import.meta.env
 const param = ref({
   pgno: currentPage.value,
-  spp: VITE_ARTICLE_LIST_SIZE,
+  spp: VITE_ARTICLE_LIST_SIZE, // 페이지 당 항목 수
   key: '',
   word: '',
 })
 
 onMounted(() => {
-    getHotplaceList()
+  getHotplaceList()
 })
 
 const changeKey = (val) => {
@@ -62,59 +68,55 @@ const onPageChange = (val) => {
 const moveWrite = () => {
   router.push({ name: 'hotplace-write' })
 }
-
-
 </script>
 
 <template>
-    <div>
-        <div class="container">
-    <div class="row justify-content-center">
-      <div class="title">
-        <h2>
-          핫플
-        </h2>
-      </div>
-      <div class="content">
-        <div class="search-bar">
-          <button type="button" class="write-button" @click="moveWrite">글쓰기</button>
-          <form class="search-form">
-            <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
-            <div class="search-input">
-              <input type="text" v-model="param.word" placeholder="검색어..." />
-              <button type="button" @click="getHotplaceList">검색</button>
-            </div>
-          </form>
+  <div>
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="title">
+          <h2>핫플</h2>
         </div>
-        <hr>
-        <table class="board-table">
-          <thead>
-            <tr>
-              <th>글번호</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-              <th>파일</th>
-            </tr>
-          </thead>
-          <tbody>
-            <HotplaceListItem
-              v-for="hotplace in hotplaces"
-              :key="hotplace.hotplaceNo"
-              :hotplace="hotplace"
-            ></HotplaceListItem>
-          </tbody>
-        </table>
-        <hr>
+        <div class="content">
+          <div class="search-bar">
+            <button type="button" class="write-button" @click="moveWrite">글쓰기</button>
+            <form class="search-form">
+              <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
+              <div class="search-input">
+                <input type="text" v-model="param.word" placeholder="검색어..." />
+                <button type="button" @click="getHotplaceList">검색</button>
+              </div>
+            </form>
+          </div>
+          <hr />
+          <table class="board-table">
+            <thead>
+              <tr>
+                <th>글번호</th>
+                <th>제목</th>
+                <th>작성자</th>
+                <th>작성일</th>
+                <th>파일</th>
+              </tr>
+            </thead>
+            <tbody>
+              <HotplaceListItem
+                v-for="hotplace in hotplaces"
+                :key="hotplace.hotplaceNo"
+                :hotplace="hotplace"
+              ></HotplaceListItem>
+            </tbody>
+          </table>
+          <hr />
+        </div>
+        <VPageNavigation
+          :current-page="currentPage"
+          :total-page="totalPage"
+          @pageChange="onPageChange"
+        ></VPageNavigation>
       </div>
-      <VPageNavigation
-        :current-page="currentPage"
-        :total-page="totalPage"
-        @pageChange="onPageChange"
-      ></VPageNavigation>
     </div>
   </div>
-    </div>
 </template>
 
 <style scoped>
@@ -197,10 +199,7 @@ const moveWrite = () => {
   margin-top: 10px;
 }
 
-
-
 .board-table tbody tr:hover {
   background-color: #f1f1f1;
 }
-
 </style>

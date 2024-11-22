@@ -13,9 +13,9 @@ defineProps({ article: Object })
         {{ article.noticeTitle }}
       </router-link>
     </td>
-    <td>{{ article.userNo }}</td>
+    <td>{{ article.userName }}</td>
     <td>{{ article.noticeDate }}</td>
-    <td>파일</td>
+    <td>{{ article.noticeFileReal }}</td>
   </tr>
 </template>
 

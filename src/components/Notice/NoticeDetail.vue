@@ -2,14 +2,10 @@
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { detailArticle, deleteArticle } from '@/api/board'
+import axios from 'axios'
 
 const route = useRoute()
 const router = useRouter()
-
-// const articleno = ref(route.params.articleno);
-const { noticeNo } = route.params
-
-// const article = ref({})
 
 const article = ref({
   noticeNo: '',
@@ -17,6 +13,7 @@ const article = ref({
   noticeTitle: '',
   noticeText: '',
   noticeDate: '',
+  noticeFileReal: '',
 })
 
 onMounted(() => {
@@ -36,6 +33,32 @@ const getArticle = () => {
   )
 }
 
+const downloadUrl = ref('')
+
+// 파일 다운로드
+const downloadFile = async () => {
+  try {
+    const response = await axios.get(`/notice/${noticeNo}/download`, {
+      responseType: 'blob',
+    })
+
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    downloadUrl.value = url
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', article.value.noticeFileReal)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+
+    console.log('다운로드 성공')
+  } catch (error) {
+    console.error('파일 다운로드 오류:', error)
+  }
+}
+
+console.log('다운로드url: ', downloadUrl)
+
 function moveList() {
   router.push({ name: 'article-list' })
 }
@@ -44,6 +67,7 @@ function moveModify() {
   router.push({ name: 'article-modify', params: { noticeNo } })
 }
 
+// 삭제 너무 빨리 되니까 정말 삭제하시겠습니까? 창 띄운 후 확인 클릭 시 삭제
 function onDeleteArticle() {
   deleteArticle(
     noticeNo,
@@ -55,6 +79,8 @@ function onDeleteArticle() {
     },
   )
 }
+
+const { noticeNo } = route.params
 </script>
 
 <template>
@@ -81,6 +107,9 @@ function onDeleteArticle() {
       </div>
       <hr class="divider" />
       <div class="content-body">{{ article.noticeText }}</div>
+      <hr class="divider" />
+      <span>첨부파일: </span>
+      <a :href="downloadUrl" @click.prevent="downloadFile" download>{{ article.noticeFileReal }}</a>
       <hr class="divider" />
       <div class="actions">
         <button class="btn" @click="moveList">글목록</button>

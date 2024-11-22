@@ -1,9 +1,9 @@
 <script setup>
-import NoticeFormItem from '../Generic/NoticeFormItem.vue'
+import HotplaceFormItem from '../Generic/HotplaceFormItem.vue'
 import { useRoute } from 'vue-router'
 
 const route = useRoute()
-const { noticeNo } = route.params
+const { hotplaceNo } = route.params
 </script>
 
 <template>
@@ -14,7 +14,7 @@ const { noticeNo } = route.params
       </div>
       <div class="col">
         <div class="board-form">
-          <NoticeFormItem type="modify" :noticeNo="noticeNo" />
+          <HotplaceFormItem type="modify" :hotplaceNo="hotplaceNo" />
         </div>
       </div>
     </div>

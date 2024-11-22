@@ -1,36 +1,32 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
-import { detailArticle, deleteArticle } from '@/api/board'
+import { deleteHotplace, detailHotplace } from '@/api/hotplace'
 
 const route = useRoute()
 const router = useRouter()
 
-// const articleno = ref(route.params.articleno);
-const { noticeNo } = route.params
+const { hotplaceNo } = route.params
 
-// const article = ref({})
-
-
-// 핫플 게시글로 수정하기
-const article = ref({
-  noticeNo: '',
+const hotplace = ref({
+  hotplaceNo: '',
   userNo: '',
-  noticeTitle: '',
-  noticeText: '',
-  noticeDate: '',
+  hotplaceTitle: '',
+  hotplaceText: '',
+  hotplaceDate: '',
 })
 
 onMounted(() => {
-  getArticle()
+  getHotplace()
 })
 
 // n번글 가지러가기
-const getArticle = () => {
-  detailArticle(
-    noticeNo,
+const getHotplace = () => {
+  detailHotplace(
+    hotplaceNo,
     ({ data }) => {
-      article.value = data
+      console.log(data)
+      hotplace.value = data
     },
     (error) => {
       console.log(error)
@@ -42,63 +38,59 @@ function moveList() {
   router.push({ name: 'Hotplace-list' })
 }
 
-// 수정해야함, api/hotplace 생성 혹은 여기에 바로 담기 
+function moveModify() {
+  router.push({ name: 'hotplace-modify', params: { hotplaceNo } })
+}
 
-// function moveModify() {
-//   router.push({ name: 'Hotplace-modify', params: { noticeNo } })
-// }
-
-// function onDeleteHotplace() {
-//   deleteHotplace(
-//     hotplaceNo,
-//     (response) => {
-//       if (response.status == 200) moveList()
-//     },
-//     (error) => {
-//       console.log(error)
-//     },
-//   )
-// }
-
-
+function onDeleteHotplace() {
+  deleteHotplace(
+    hotplaceNo,
+    (response) => {
+      if (response.status == 200) moveList()
+    },
+    (error) => {
+      console.log(error)
+    },
+  )
+}
 </script>
 
 <template>
-    <div class="container" v-if="hotplace && hotplace.hotplaceNo">
-      <div class="title">
-        <h2><mark class="sky">글보기</mark></h2>
+  <div class="container" v-if="hotplace && hotplace.hotplaceNo">
+    <div class="title">
+      <h2><mark class="sky">글보기</mark></h2>
+    </div>
+    <div class="content">
+      <div class="header">
+        <h2>{{ hotplace.hotplaceNo }}. {{ hotplace.hotplaceTitle }}</h2>
       </div>
-      <div class="content">
-        <div class="header">
-          <h2>{{ hotplace.noticeNo }}. {{ hotplace.hotplaceTitle }}</h2>
-        </div>
-        <div class="info">
-          <div class="user">
-            <img
-              class="avatar"
-              src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
-              alt="User Avatar"
-            />
-            <div class="details">
-              <span class="name">admin</span>
-              <span class="meta">{{ hotplace.noticeDate }}</span>
-            </div>
+      <div class="info">
+        <div class="user">
+          <img
+            class="avatar"
+            src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
+            alt="User Avatar"
+          />
+          <div class="details">
+            <span class="name">admin</span>
+            <span class="meta">{{ hotplace.hotplaceDate }}</span>
           </div>
         </div>
-        <hr class="divider" />
-        <div class="content-body">{{ hotplace.noticeText }}</div>
-        <hr class="divider" />
-        <div class="actions">
-          <button class="btn" @click="moveList">글목록</button>
-          <button class="btn" @click="moveModify">글수정</button>
-          <button class="btn danger" @click="onDeleteArticle">글삭제</button>
-        </div>
+      </div>
+      <hr class="divider" />
+      <div class="content-body">{{ hotplace.hotplaceText }}</div>
+      <hr class="divider" />
+      <div class="actions">
+        <button class="btn" @click="moveList">글목록</button>
+        <button class="btn" @click="moveModify">글수정</button>
+        <button class="btn danger" @click="onDeleteHotplace">글삭제</button>
       </div>
     </div>
-    <div v-else>
-      <p>데이터를 불러오는 중입니다...</p>
-    </div>
-  </template>
+  </div>
+  <div v-else>
+    <p>데이터를 불러오는 중입니다...</p>
+  </div>
+</template>
 
 <style scoped>
 .container {
@@ -220,5 +212,4 @@ function moveList() {
   background-color: #dc3545;
   color: white;
 }
-
 </style>

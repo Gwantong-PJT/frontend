@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 const props = defineProps({ currentPage: Number, totalPage: Number })
-const emit = defineEmits(['pageChange'])
+// const emit = defineEmits(['pageChange'])
 
 const navigationSize = parseInt(import.meta.env.VITE_ARTICLE_NAVIGATION_SIZE)
 

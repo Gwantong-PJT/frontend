@@ -5,6 +5,7 @@ import Hotplace from '@/views/Hotplace.vue'
 import Mypage from '@/views/Mypage.vue'
 import Notice from '@/views/Notice.vue'
 import Search from '@/views/Search.vue'
+import HotplaceDetail from '@/components/Hotplace/HotplaceDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -33,8 +34,10 @@ const router = createRouter({
         {
           path: 'view/:hotplaceNo',
           name: 'hotplace-view',
-          component: () => import('@/components/Hotplace/HotplaceDetail.vue'),
+          component: HotplaceDetail,
+          props: true,
         },
+
         {
           path: 'write',
           name: 'hotplace-write',
