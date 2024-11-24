@@ -1,5 +1,5 @@
 <script setup>
-import { ref, defineEmits, onMounted } from 'vue'
+import { ref, defineEmits, onMounted, watch } from 'vue'
 import VSelect from '../common/VSelect.vue'
 import axios from 'axios'
 
@@ -7,117 +7,121 @@ const emit = defineEmits()
 const ageList = ref([{ text: '연령선택', value: '' }])
 const sidoList = ref([{ text: '지역선택', value: '' }])
 
-const name = ref('')
+const userName = ref('')
 const userId = ref('')
-const password = ref('')
+const userPassword = ref('')
 const passwordChk = ref('')
-const email = ref('')
 const gender = ref('')
-const age = ref('')
-const sido = ref('')
+const ageNo = ref('') // ageNo 저장
+const userSex = ref('')
+const userRegion = ref('') // sidoCode 저장
 
-// 나이 리스트 가져오기 함수
 const fetchAgeList = async () => {
-  console.log('http://192.168.203.121:8520/list/age')
-  const response = await axios.get('http://192.168.203.121:8520/list/age')
+  const response = await axios.get('http://localhost:8520/list/age')
   if (response.status === 200) {
-    console.log(response.data)
     const res = response.data
     for (const data of res) {
       const newData = {
-        text: data.ageNo,
-        value: data.ageValue,
+        text: data.ageNo, // text에 ageNo 저장
+        value: data.ageValue, // value에 ageValue 저장
       }
       ageList.value.push(newData)
     }
   }
 }
 
-// 나이 선택 시 처리 함수
-const onChangeAge = (selectedValue) => {
-  age.value = selectedValue
-  console.log('선택된 나이:', selectedValue)
+const onChangeAge = (selectedOption) => {
+  ageNo.value = selectedOption ? selectedOption.text : null // 선택된 ageNo 저장
 }
 
-onMounted(() => {
-  fetchAgeList()
-})
-
-// 선호 지역 가져오기
 const fetchSidoList = async () => {
-  console.log('http://192.168.203.121:8520/list/sido')
-  const response = await axios.get('http://192.168.203.121:8520/list/sido')
+  const response = await axios.get('http://localhost:8520/list/sido')
   if (response.status === 200) {
-    console.log(response.data)
     const res = response.data
     for (const data of res) {
       const newData = {
-        text: data.sidoCode,
-        value: data.sidoName,
+        text: data.sidoCode, // text에 sidoCode 저장
+        value: data.sidoName, // value에 sidoName 저장
       }
       sidoList.value.push(newData)
     }
   }
 }
 
-// 지역 선택 시 처리 함수
-const onChangeSido = (selectedValue) => {
-  sido.value = selectedValue
-  console.log('선택된 지역:', selectedValue)
+const onChangeSido = (selectedOption) => {
+  userRegion.value = selectedOption ? selectedOption.text : null // 선택된 sidoCode 저장
+}
+
+watch(gender, (newValue) => {
+  userSex.value = newValue === '1' ? 1 : newValue === '2' ? 2 : null
+})
+
+const handleSignUp = async () => {
+  if (!userId.value || !userPassword.value) {
+    alert('아이디와 비밀번호는 필수입니다.')
+    return
+  }
+
+  if (userPassword.value !== passwordChk.value) {
+    alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.')
+    passwordChk.value = ''
+    return
+  }
+
+  const signupData = {
+    userNo: 0,
+    userId: userId.value,
+    userPassword: userPassword.value,
+    userName: userName.value || null,
+    userRole: '',
+    userProfile: '',
+    ageNo: ageNo.value || null,
+    userRegion: userRegion.value || null,
+    ageValue: 0,
+    userSex: userSex.value || null,
+  }
+
+  try {
+    const response = await axios.post('http://localhost:8520/user/signup', signupData)
+    if (response.status === 200) {
+      alert('회원가입이 완료되었습니다!')
+      emit('changeToLogin')
+    }
+  } catch (error) {
+    console.error(error)
+    alert('회원가입에 실패했습니다. 다시 시도해주세요.')
+  }
 }
 
 onMounted(() => {
   fetchSidoList()
+  fetchAgeList()
 })
-
-const handleSignUp = () => {
-  if (
-    !name.value ||
-    !userId.value ||
-    !password.value ||
-    !passwordChk.value ||
-    !email.value ||
-    !age.text ||
-    !sido.text
-  ) {
-    alert('모든 필드를 입력해주세요.')
-    return
-  }
-
-  // 비밀번호와 비밀번호 확인이 일치하는지 확인
-  if (password.value !== passwordChk.value) {
-    alert('비밀번호가 일치하지 않습니다. 다시 확인해주세요.')
-    passwordChk.value = '' // 비밀번호 확인 필드를 초기화
-    return
-  }
-
-  // 회원가입 완료 메시지 출력 및 화면 전환
-  alert('회원가입이 완료되었습니다!')
-  emit('changeToLogin')
-}
 </script>
+
+
 
 <template>
   <div class="signup-box">
     <h1>Sign Up</h1>
-    <form action="">
+    <form @submit.prevent="handleSignUp">
       <div>
         <label>이름</label>
-        <input type="text" v-model="name" required />
+        <input type="text" v-model="userName" id="userName" required />
       </div>
       <div>
         <label>아이디</label>
-        <input type="text" v-model="userId" required />
+        <input type="text" v-model="userId" id="userId" required />
       </div>
       <div>
         <label>비밀번호</label>
-        <input type="password" v-model="password" required />
+        <input type="password" v-model="userPassword" id="userPassword" required />
       </div>
       <div>
         <label>비밀번호 확인</label>
         <input type="password" v-model="passwordChk" required />
       </div>
-      <div><label>이메일</label> <input type="email" v-model="email" required /> <br /></div>
+      <!-- <div><label>이메일</label> <input type="email" v-model="email" required /> <br /></div> -->
       <div>
         <label>성별: </label>
         <input class="radio" v-model="gender" type="radio" value="2" name="gender" />여성
@@ -125,19 +129,19 @@ const handleSignUp = () => {
       </div>
       <br />
       <div>
-        <label for="age">연령</label>
+        <label for="ageNo">연령</label>
         <div class="filters">
           <div class="filter-item">
-            <VSelect :select-option="ageList" @on-key-select="onChangeAge" id="age"></VSelect>
+            <VSelect :select-option="ageList" @on-key-select="onChangeAge" id="ageNo"></VSelect>
           </div>
         </div>
         <br />
       </div>
       <div>
-        <label for="sido">선호 지역</label>
+        <label for="userRegion">선호 지역</label>
         <div class="filters">
           <div class="filter-item">
-            <VSelect :select-option="sidoList" @on-key-select="onChangeSido" id="sido"></VSelect>
+            <VSelect :select-option="sidoList" @on-key-select="onChangeSido" id="userRegion"></VSelect>
           </div>
         </div>
         <br />

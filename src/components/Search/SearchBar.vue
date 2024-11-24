@@ -4,18 +4,20 @@ import SelectBar from './SelectBar.vue'
 import axios from 'axios'
 import SearchList from './SearchList.vue'
 
-const emit = defineEmits()
+const emit = defineEmits(['selectAttraction'])
 const sido = ref('') // 선택된 시도 값
 const type = ref('') // 선택된 관광지 값
 const keyWord = ref('')
 const sidoList = ref([{ text: '지역선택', value: '' }])
 const typeList = ref([{ text: '관광지선택', value: '' }])
 const attractionList = ref([]) // 관광지 결과 저장
+const searchListRef = ref(null); 
+
 
 // 시도 가져오기
 const fetchSidoList = async () => {
-  console.log('http://192.168.203.121:8520/list/sido')
-  const response = await axios.get('http://192.168.203.121:8520/list/sido')
+  console.log('http://localhost:8520/list/sido')
+  const response = await axios.get('http://localhost:8520/list/sido')
   if (response.status === 200) {
     console.log(response.data)
     const res = response.data
@@ -42,8 +44,8 @@ onMounted(() => {
 
 // 관광지 가져오기
 const fetchTypeList = async () => {
-  console.log('http://192.168.203.121:8520/list/type')
-  const response = await axios.get('http://192.168.203.121:8520/list/type')
+  console.log('http://localhost:8520/list/type')
+  const response = await axios.get('http://localhost:8520/list/type')
   if (response.status === 200) {
     console.log(response.data)
     const res = response.data
@@ -71,16 +73,28 @@ onMounted(() => {
 const handleSearch = async () => {
   try {
     const response = await axios.get(
-      `http://192.168.203.121:8520/attraction/?contentTypeId=${type.value}&sidoCode=${sido.value}&keyWord=${keyWord.value}`,
+      `http://localhost:8520/attraction/?contentTypeId=${type.value}&sidoCode=${sido.value}&keyWord=${keyWord.value}`,
     )
     if (response.status === 200) {
       console.log(response.data)
       attractionList.value = response.data
+      
+      // 검색 후 스크롤 위치 최상단으로 이동
+      if (searchListRef.value) {
+        console.log(searchListRef.value)
+        console.log(searchListRef.value.scrollTop)
+        searchListRef.value.scrollTop = 0;
+      }
     }
   } catch (error) {
     console.error('검색 요청 실패', error)
   }
 }
+
+const handleSelectAttraction = (attraction) => {
+  emit('selectAttraction', attraction)
+}
+
 </script>
 
 <template>
@@ -99,8 +113,8 @@ const handleSearch = async () => {
       <input v-model="keyWord" class="keyword" type="text" placeholder="검색어를 입력하세요" />
       <button @click="handleSearch">검색</button>
     </div>
-    <div class="search-list">
-      <SearchList :attractionList="attractionList"></SearchList>
+    <div class="search-list" ref="searchListRef">
+      <SearchList :attractionList="attractionList" @selectAttraction="handleSelectAttraction"></SearchList>
     </div>
   </div>
 </template>
@@ -108,7 +122,7 @@ const handleSearch = async () => {
 <style scoped>
 .container {
   margin-top: 40px;
-  width: 300px;
+  width: 400px;
   height: 750px;
   display: flex;
   flex-direction: column;
@@ -151,5 +165,15 @@ button:hover {
 }
 .search-list {
   height: 520px;
+}
+
+.search-list::-webkit-scrollbar {
+    width: 8px;
+}
+.search-list::-webkit-scrollbar-thumb {
+    background-color: #919196;
+}
+.search-list::-webkit-scrollbar-track {
+    background-color: rgba(182, 180, 180, 0.213);
 }
 </style>
