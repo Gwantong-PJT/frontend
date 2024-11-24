@@ -22,7 +22,16 @@ const totalPage = ref(0)
 
 const getArticleList = async () => {
   try {
-    const response = await axios.get('/notice/')
+    const jwttoken = sessionStorage.getItem('refreshToken')
+    const loginedUserId = sessionStorage.getItem('User-Id')
+    console.log(jwttoken)
+    console.log(loginedUserId)
+    const response = await axios.get('/notice/', {
+      headers: {
+        Jwt: jwttoken,
+        'User-Id': loginedUserId,
+      },
+    })
     articles.value = response.data
     // console.log(articles.value)
     if (response.status === 200) {
@@ -69,9 +78,7 @@ const moveWrite = () => {
   <div class="container">
     <div class="row justify-content-center">
       <div class="title">
-        <h2>
-          공지사항
-        </h2>
+        <h2>공지사항</h2>
       </div>
       <div class="content">
         <div class="search-bar">
@@ -84,7 +91,7 @@ const moveWrite = () => {
             </div>
           </form>
         </div>
-        <hr>
+        <hr />
         <table class="board-table">
           <thead>
             <tr>
@@ -103,7 +110,7 @@ const moveWrite = () => {
             ></BoardListItem>
           </tbody>
         </table>
-        <hr>
+        <hr />
       </div>
       <VPageNavigation
         :current-page="currentPage"
@@ -193,8 +200,6 @@ const moveWrite = () => {
   border-collapse: collapse;
   margin-top: 10px;
 }
-
-
 
 .board-table tbody tr:hover {
   background-color: #f1f1f1;
