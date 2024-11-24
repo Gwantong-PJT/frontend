@@ -4,14 +4,13 @@ import axios from 'axios'
 import { useRoute, useRouter } from 'vue-router'
 import { detailArticle } from '@/api/board'
 
-const noticeTitle = ref('')
-const noticeText = ref('')
-const noticeFileReal = ref(null)
+const hotplaceTitle = ref('')
+const hotplaceText = ref('')
 
 const router = useRouter()
 const route = useRoute()
 
-const props = defineProps({ type: String, noticeNo: [String, Number] })
+const props = defineProps({ type: String, hotplaceNo: [String, Number] })
 
 // 파일 처리
 const onFileChange = (event) => {
@@ -26,31 +25,28 @@ const onFileChange = (event) => {
 const submitForm = async () => {
   // 수정할 데이터 객체 준비
   const article = {
-    noticeNo: props.noticeNo, // 수정할 게시글 번호
+    hotplaceNo: props.hotplaceNo, // 수정할 게시글 번호
     userNo: 1, // 작성자 번호 (예시로 1 사용)
-    noticeTitle: noticeTitle.value,
-    noticeText: noticeText.value,
-    noticeDate: new Date().toISOString(), // 날짜 형식에 맞게 변환
-    noticeFileReal: noticeFileReal.value ? noticeFileReal.value.name : '', // 파일명
-    noticeFileUnique: `공지_${noticeFileReal.value?.name || ''}`, // 유니크한 파일명 생성
-  }
+    hotplaceTitle: hotplaceTitle.value,
+    hotplaceText: hotplaceText.value,
+    hotplaceDate: new Date().toISOString(), // 날짜 형식에 맞게 변환
+   }
 
   try {
     let response
     if (props.type === 'modify') {
       // 수정 요청
-      response = await axios.put('/notice/', article, {
+      response = await axios.put('http://localhost:8520/hotplace/', hotplace, {
         headers: { 'Content-Type': 'application/json' },
       })
     } else {
       // 등록 요청
       const formData = new FormData()
-      formData.append('noticeTitle', noticeTitle.value)
-      formData.append('noticeText', noticeText.value)
-      formData.append('noticeFileReal', noticeFileReal.value)
+      formData.append('hotplaceTitle', hotplaceTitle.value)
+      formData.append('hotplaceText', hotplaceText.value)
       formData.append('userNo', 1)
 
-      response = await axios.post('/notice/', formData, {
+      response = await axios.post('http://localhost:8520/hotplace/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
     }
@@ -70,11 +66,11 @@ const submitForm = async () => {
 if (props.type === 'modify') {
   onMounted(() => {
     detailArticle(
-      props.noticeNo,
+      props.hotplaceeNo,
       ({ data }) => {
-        noticeTitle.value = data.noticeTitle
-        noticeText.value = data.noticeText
-        noticeFileReal.value = data.noticeFileReal // 기존 파일명 저장
+        hotplaceTitle.value = data.hotplaceTitle
+        hotplaceText.value = data.hotplaceText
+        hotplaceFileReal.value = data.hotplaceFileReal // 기존 파일명 저장
       },
       (error) => {
         console.log(error)

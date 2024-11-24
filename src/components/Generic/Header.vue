@@ -2,7 +2,7 @@
   <header>
     <div class="wrapper">
       <nav>
-        <img src="@/assets/img/logo.png" alt="" />
+        <img src="@/assets/img/logo_img.png" alt="" />
         <RouterLink to="/main" class="router-link">홈</RouterLink><br />
         <RouterLink to="/search" class="router-link">검색</RouterLink><br />
         <RouterLink to="/notice" class="router-link">커뮤니티</RouterLink><br />
@@ -38,6 +38,7 @@ nav {
   align-items: center;
   justify-content: space-around;
   background-color: white;
+  font-size: 20px;
 }
 
 .wrapper nav {
@@ -53,6 +54,9 @@ nav {
 }
 
 .router-link:hover {
-  color: #3498db; /* 마우스 hover 시 글자색 바뀌게 */
+  color: #711871; /* 마우스 hover 시 글자색 바뀌게 */
+}
+img {
+  width: 160px;
 }
 </style>

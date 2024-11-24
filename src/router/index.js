@@ -1,11 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import Home from '@/views/Home.vue'
 import LoginView from '@/views/Login.vue'
-import Hotplace from '@/views/Hotplace.vue'
 import Mypage from '@/views/Mypage.vue'
 import Notice from '@/views/Notice.vue'
 import Search from '@/views/Search.vue'
-import HotplaceDetail from '@/components/Hotplace/HotplaceDetail.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -21,31 +19,6 @@ const router = createRouter({
       component: Home,
     },
     {
-      path: '/hotplace',
-      name: 'hotplace',
-      component: Hotplace,
-      redirect: { name: 'hotplace-list' },
-      children: [
-        {
-          path: 'list',
-          name: 'hotplace-list',
-          component: () => import('@/components/Hotplace/HotplaceList.vue'),
-        },
-        {
-          path: 'view/:hotplaceNo',
-          name: 'hotplace-view',
-          component: HotplaceDetail,
-          props: true,
-        },
-
-        {
-          path: 'write',
-          name: 'hotplace-write',
-          component: () => import('@/components/Hotplace/HotplaceWrite.vue'),
-        },
-      ],
-    },
-    {
       path: '/notice',
       name: 'notice',
       component: Notice,
@@ -57,7 +30,7 @@ const router = createRouter({
           component: () => import('@/components/Notice/NoticeList.vue'),
         },
         {
-          path: 'view/:noticeNo',
+          path: 'view/:hotplaceNo',
           name: 'article-view',
           component: () => import('@/components/Notice/NoticeDetail.vue'),
         },
@@ -67,7 +40,7 @@ const router = createRouter({
           component: () => import('@/components/Notice/NoticeWrite.vue'),
         },
         {
-          path: 'modify/:noticeNo',
+          path: 'modify/:hotplaceNo',
           name: 'article-modify',
           component: () => import('@/components/Notice/NoticeModify.vue'),
         },

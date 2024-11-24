@@ -9,22 +9,14 @@ import VPageNavigation from '@/components/common/VPageNavigation.vue'
 
 const router = useRouter()
 
-const selectOption = ref([
-  { text: '검색조건', value: '' },
-  { text: '글번호', value: 'noticeNo' },
-  { text: '제목', value: 'subject' },
-  { text: '작성자아이디', value: 'user_id' },
-])
-
-const articles = ref([])
+const hotplaces = ref([])
 const currentPage = ref(1)
 const totalPage = ref(0)
 
-const getArticleList = async () => {
+const getHotpleList = async () => {
   try {
-    const response = await axios.get('/notice/')
-    articles.value = response.data
-    // console.log(articles.value)
+    const response = await axios.get('http://localhost:8520/hotplace/')
+    hotplaces.value = response.data
     if (response.status === 200) {
       console.log('pass')
     } else {
@@ -46,20 +38,17 @@ const param = ref({
 })
 
 onMounted(() => {
-  getArticleList()
+  getHotpleList()
 })
-
-const changeKey = (val) => {
-  param.value.key = val
-}
 
 // n번 페이지 이동
 const onPageChange = (val) => {
   currentPage.value = val
   param.value.pgno = val
-  getArticleList()
+  getHotpleList()
 }
 
+// 글 작성 부분
 const moveWrite = () => {
   router.push({ name: 'article-write' })
 }
@@ -70,19 +59,12 @@ const moveWrite = () => {
     <div class="row justify-content-center">
       <div class="title">
         <h2>
-          공지사항
+          커뮤니티
         </h2>
       </div>
       <div class="content">
         <div class="search-bar">
           <button type="button" class="write-button" @click="moveWrite">글쓰기</button>
-          <form class="search-form">
-            <VSelect :selectOption="selectOption" @onKeySelect="changeKey" />
-            <div class="search-input">
-              <input type="text" v-model="param.word" placeholder="검색어..." />
-              <button type="button" @click="getArticleList">검색</button>
-            </div>
-          </form>
         </div>
         <hr>
         <table class="board-table">
@@ -94,12 +76,17 @@ const moveWrite = () => {
               <th>작성일</th>
               <th>파일</th>
             </tr>
+            <tr>
+              <td colspan="5">
+                <hr />
+              </td>
+            </tr>
           </thead>
           <tbody>
             <BoardListItem
-              v-for="article in articles"
-              :key="article.noticeNo"
-              :article="article"
+              v-for="hotplace in hotplaces"
+              :key="hotplace.hotplaceNo"
+              :hotplace="hotplace"
             ></BoardListItem>
           </tbody>
         </table>
@@ -198,5 +185,10 @@ const moveWrite = () => {
 
 .board-table tbody tr:hover {
   background-color: #f1f1f1;
+}
+
+.board-table thead hr {
+  border: 1px solid #ddd;
+  margin: 0;
 }
 </style>

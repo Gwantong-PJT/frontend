@@ -60,7 +60,7 @@ import PhotoComponent from '@/components/Home/PhotoComponent.vue';
         gap: 10px;
         margin-top: 70px;
         width: 100%;
-        height: 450px;
+        height: 550px;
         background-color: rgb(245, 215, 221);
         z-index: 2;
     }
@@ -68,19 +68,19 @@ import PhotoComponent from '@/components/Home/PhotoComponent.vue';
 
 
     .graph-component {
-        margin-top: 30px;
-        margin-left: 100px;
+        margin-top: 50px;
+        margin-left: 150px;
 
     }
 
     .photo-area {
-        margin-top: 65px;
-        margin-left: 60px;
+        margin-top: 80px;
+        margin-left: 100px;
     }
 
     .text-area {
-        margin-left: 35px;
-        margin-top: 15px;
+        margin-left: 70px;
+        margin-top: 60px;
     }
     
 

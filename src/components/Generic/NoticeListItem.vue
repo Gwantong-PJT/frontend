@@ -1,21 +1,20 @@
 <script setup>
-defineProps({ article: Object })
+defineProps({ hotplace: Object })
 </script>
 
 <template>
   <tr class="text-center">
-    <th scope="row">{{ article.noticeNo }}</th>
+    <th scope="row">{{ hotplace.hotplaceNo }}</th>
     <td class="text-start">
       <router-link
-        :to="{ name: 'article-view', params: { noticeNo: article.noticeNo } }"
+        :to="{ name: 'article-view', params: { hotplaceNo: hotplace.hotplaceNo } }"
         class="article-title link-dark"
       >
-        {{ article.noticeTitle }}
+        {{ hotplace.hotplaceTitle }}
       </router-link>
     </td>
-    <td>{{ article.userName }}</td>
-    <td>{{ article.noticeDate }}</td>
-    <td>{{ article.noticeFileReal }}</td>
+    <td>{{ hotplace.hotplaceDate }}</td>
+    <!-- <td>{{ hotplace.noticeFileReal }}</td> -->
   </tr>
 </template>
 
