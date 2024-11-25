@@ -2,7 +2,7 @@
 import { useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/auth' // Pinia의 authStore import
 import { ref } from 'vue'
-import axios from 'axios';
+import axios from 'axios'
 
 const router = useRouter()
 const authStore = useAuthStore() // authStore 사용
@@ -12,12 +12,10 @@ const password = ref('')
 
 // 로그인 코드
 const handleLogin = async () => {
-
   const loginUser = {
     userId: userId.value,
-    userPassword: password.value
+    userPassword: password.value,
   }
-
 
   try {
     let response
@@ -25,21 +23,30 @@ const handleLogin = async () => {
     formData.append('userId', userId.value)
     formData.append('userPassword', password.value)
 
+    response = await axios.post(
+      'http://192.168.203.115:8520/user/login',
+      JSON.stringify(loginUser),
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
 
-    response = await axios.post('http://localhost:8520/user/login', JSON.stringify(loginUser), {
-      headers: {'Content-Type': 'application/json'},
-    })
-    
-      if (response.status === 200) {
-        console.log("로그인 성공")
-        const refreshToken = response.data.jwt;
+    if (response.status === 200) {
+      console.log('로그인 성공')
+      const refreshToken = response.data.jwt
+      const userdto = response.data.userDto
 
-        sessionStorage.setItem('refreshToken', refreshToken)
-        authStore.login()
-        router.push('/main')
-      } else {
-        alert('아이디 또는 비밀번호가 잘못되었습니다.')
-      }
+      sessionStorage.setItem('refreshToken', refreshToken)
+      sessionStorage.setItem('userNo', userdto.userNo)
+      sessionStorage.setItem('userId', userdto.userId)
+      sessionStorage.setItem('userName', userdto.userName)
+      sessionStorage.setItem('ageNo', userdto.ageNo)
+      sessionStorage.setItem('userSex', userdto.userSex)
+      authStore.login()
+      router.push('/main')
+    } else {
+      alert('아이디 또는 비밀번호가 잘못되었습니다.')
+    }
   } catch (error) {
     console.error('API 요청 오류', error)
   }

@@ -3,22 +3,26 @@ import { ref } from 'vue'
 defineProps({ selectOption: Array })
 const emit = defineEmits(['onKeySelect'])
 
-const key = ref('')
+const key = ref('') // 선택된 value 값
 
 const onSelect = () => {
-  emit('onKeySelect', key.value)
+  const selectedOption = selectOption.find((option) => option.value === key.value)
+  if (selectedOption) {
+    emit('onKeySelect', selectedOption.text) // 선택된 text 값 전달
+  }
 }
 </script>
 
 <template>
-  <select v-model="key" class="" @change="onSelect">
+  <select v-model="key" @change="onSelect">
     <option
       v-for="option in selectOption"
-      :key="option.text"
+      :key="option.value + option.text"
       :value="option.value"
-      :disabled="option.value === '' ? true : false"
+      :disabled="option.value === ''"
     >
       {{ option.value }}
+      <!-- 사용자에게 보여줄 텍스트 -->
     </option>
   </select>
 </template>

@@ -15,7 +15,7 @@ const totalPage = ref(0)
 
 const getHotpleList = async () => {
   try {
-    const response = await axios.get('http://localhost:8520/hotplace/')
+    const response = await axios.get('http://192.168.203.115:8520/hotplace/')
     hotplaces.value = response.data
     if (response.status === 200) {
       console.log('pass')
@@ -58,15 +58,13 @@ const moveWrite = () => {
   <div class="container">
     <div class="row justify-content-center">
       <div class="title">
-        <h2>
-          커뮤니티
-        </h2>
+        <h2>커뮤니티</h2>
       </div>
       <div class="content">
         <div class="search-bar">
           <button type="button" class="write-button" @click="moveWrite">글쓰기</button>
         </div>
-        <hr>
+        <hr />
         <table class="board-table">
           <thead>
             <tr>
@@ -90,7 +88,7 @@ const moveWrite = () => {
             ></BoardListItem>
           </tbody>
         </table>
-        <hr>
+        <hr />
       </div>
       <VPageNavigation
         :current-page="currentPage"
@@ -180,8 +178,6 @@ const moveWrite = () => {
   border-collapse: collapse;
   margin-top: 10px;
 }
-
-
 
 .board-table tbody tr:hover {
   background-color: #f1f1f1;

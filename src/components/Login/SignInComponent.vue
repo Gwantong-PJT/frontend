@@ -14,10 +14,11 @@ const passwordChk = ref('')
 const gender = ref('')
 const ageNo = ref('') // ageNo 저장
 const userSex = ref('')
+const ageValue = ref('')
 const userRegion = ref('') // sidoCode 저장
 
 const fetchAgeList = async () => {
-  const response = await axios.get('http://localhost:8520/list/age')
+  const response = await axios.get('http://192.168.203.115:8520/list/age')
   if (response.status === 200) {
     const res = response.data
     for (const data of res) {
@@ -31,11 +32,11 @@ const fetchAgeList = async () => {
 }
 
 const onChangeAge = (selectedOption) => {
-  ageNo.value = selectedOption ? selectedOption.text : null // 선택된 ageNo 저장
+  ageNo.value = selectedOption // 선택된 ageNo 저장
 }
 
 const fetchSidoList = async () => {
-  const response = await axios.get('http://localhost:8520/list/sido')
+  const response = await axios.get('http://192.168.203.115:8520/list/sido')
   if (response.status === 200) {
     const res = response.data
     for (const data of res) {
@@ -49,7 +50,7 @@ const fetchSidoList = async () => {
 }
 
 const onChangeSido = (selectedOption) => {
-  userRegion.value = selectedOption ? selectedOption.text : null // 선택된 sidoCode 저장
+  userRegion.value = selectedOption // 선택된 sidoCode 저장
 }
 
 watch(gender, (newValue) => {
@@ -75,14 +76,14 @@ const handleSignUp = async () => {
     userName: userName.value || null,
     userRole: '',
     userProfile: '',
-    ageNo: ageNo.value || null,
-    userRegion: userRegion.value || null,
-    ageValue: 0,
+    ageNo: ageNo.text || null,
+    userRegion: userRegion.text || null,
+    ageValue: ageValue.value,
     userSex: userSex.value || null,
   }
 
   try {
-    const response = await axios.post('http://localhost:8520/user/signup', signupData)
+    const response = await axios.post('http://192.168.203.115:8520/user/signup', signupData)
     if (response.status === 200) {
       alert('회원가입이 완료되었습니다!')
       emit('changeToLogin')
@@ -99,12 +100,11 @@ onMounted(() => {
 })
 </script>
 
-
-
 <template>
   <div class="signup-box">
     <h1>Sign Up</h1>
     <form @submit.prevent="handleSignUp">
+      <!-- 여기서 submit 이벤트만 사용 -->
       <div>
         <label>이름</label>
         <input type="text" v-model="userName" id="userName" required />
@@ -121,7 +121,6 @@ onMounted(() => {
         <label>비밀번호 확인</label>
         <input type="password" v-model="passwordChk" required />
       </div>
-      <!-- <div><label>이메일</label> <input type="email" v-model="email" required /> <br /></div> -->
       <div>
         <label>성별: </label>
         <input class="radio" v-model="gender" type="radio" value="2" name="gender" />여성
@@ -141,13 +140,18 @@ onMounted(() => {
         <label for="userRegion">선호 지역</label>
         <div class="filters">
           <div class="filter-item">
-            <VSelect :select-option="sidoList" @on-key-select="onChangeSido" id="userRegion"></VSelect>
+            <VSelect
+              :select-option="sidoList"
+              @on-key-select="onChangeSido"
+              id="userRegion"
+            ></VSelect>
           </div>
         </div>
         <br />
       </div>
       <div class="btn-container">
-        <button @click="handleSignUp">회원가입</button>
+        <button type="submit">회원가입</button>
+        <!-- submit 버튼 -->
       </div>
     </form>
   </div>

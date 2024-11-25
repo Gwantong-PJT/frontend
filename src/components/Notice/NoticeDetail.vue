@@ -37,7 +37,7 @@ const downloadUrl = ref('')
 // 파일 다운로드
 // const downloadFile = async () => {
 //   try {
-//     const response = await axios.get(`/hotplace/${hotplaceNo}/download`, {
+//     const response = await axios.get(`http://192.168.203.115:8520/hotplace/${hotplaceNo}/download`, {
 //       responseType: 'blob',
 //     })
 

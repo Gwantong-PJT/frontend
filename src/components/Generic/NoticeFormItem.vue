@@ -30,13 +30,13 @@ const submitForm = async () => {
     hotplaceTitle: hotplaceTitle.value,
     hotplaceText: hotplaceText.value,
     hotplaceDate: new Date().toISOString(), // 날짜 형식에 맞게 변환
-   }
+  }
 
   try {
     let response
     if (props.type === 'modify') {
       // 수정 요청
-      response = await axios.put('http://localhost:8520/hotplace/', hotplace, {
+      response = await axios.put('http://192.168.203.115:8520/hotplace/', hotplace, {
         headers: { 'Content-Type': 'application/json' },
       })
     } else {
@@ -46,7 +46,7 @@ const submitForm = async () => {
       formData.append('hotplaceText', hotplaceText.value)
       formData.append('userNo', 1)
 
-      response = await axios.post('http://localhost:8520/hotplace/', formData, {
+      response = await axios.post('/hotplace/', formData, {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
     }
