@@ -73,7 +73,7 @@ const moveWrite = () => {
         <div class="search-bar">
           <button type="button" class="write-button" @click="moveWrite">글쓰기</button>
         </div>
-        <hr>
+        <hr />
         <table class="board-table">
           <thead>
             <tr>
@@ -97,7 +97,7 @@ const moveWrite = () => {
             ></BoardListItem>
           </tbody>
         </table>
-        <hr>
+        <hr />
       </div>
       <VPageNavigation
         :current-page="currentPage"
@@ -187,8 +187,6 @@ const moveWrite = () => {
   border-collapse: collapse;
   margin-top: 10px;
 }
-
-
 
 .board-table tbody tr:hover {
   background-color: #f1f1f1;
