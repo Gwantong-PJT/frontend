@@ -2,7 +2,7 @@
   <header>
     <div class="wrapper">
       <nav>
-        <img src="@/assets/img/logo_img.png" alt="" />
+        <img src="@/assets/img/logo_img2.png" alt="" />
         <RouterLink to="/main" class="router-link">홈</RouterLink><br />
         <RouterLink to="/search" class="router-link">검색</RouterLink><br />
         <RouterLink to="/notice" class="router-link">커뮤니티</RouterLink><br />

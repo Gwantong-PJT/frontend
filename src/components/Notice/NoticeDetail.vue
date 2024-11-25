@@ -69,8 +69,10 @@ function moveModify() {
 
 // 삭제 너무 빨리 되니까 정말 삭제하시겠습니까? 창 띄운 후 확인 클릭 시 삭제
 function onDeleteArticle() {
+  console.log(hotplaceNo)
   deleteArticle(
     hotplaceNo,
+    
     (response) => {
       if (response.status == 200) moveList()
     },
@@ -85,12 +87,10 @@ const { hotplaceNo } = route.params
 
 <template>
   <div class="container" v-if="hotplace && hotplace.hotplaceNo">
-    <div class="title">
-      <h2><mark class="sky">글보기</mark></h2>
-    </div>
+    
     <div class="content">
       <div class="header">
-        <h2>{{ hotplace.hotplaceNo }}. {{ hotplace.hotplaceTitle }}</h2>
+        <h2>{{ hotplace.hotplaceTitle }}</h2>
       </div>
       <div class="info">
         <div class="user">
@@ -156,6 +156,7 @@ const { hotplaceNo } = route.params
 .content {
   width: 90%;
   margin: 0 auto;
+  margin-top: 100px;
 }
 
 .header {

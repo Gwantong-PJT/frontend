@@ -2,6 +2,8 @@
 import { ref, onMounted } from 'vue'
 import GraphComponent from '@/components/Home/GraphComponent.vue'
 import PhotoComponent from '@/components/Home/PhotoComponent.vue'
+import TripTalk from '@/components/Home/TripTalk.vue';
+import TripTalkCard from '@/components/Home/TripTalkCard.vue';
 
 const userName = ref('')
 const ageGroup = ref('')
@@ -42,10 +44,16 @@ onMounted(() => {
         </div>
       </div>
       <div class="photo-area">
+        <div class="textArea">
+          <span>{{ ageGroup }}대 {{ genderGroup }} 선호도 인기 순위</span>
+        </div>
         <PhotoComponent></PhotoComponent>
       </div>
     </div>
-    <div class="first-container">첫 번째 영역</div>
+    <div class="first-container"> 
+      <TripTalk></TripTalk>
+      <TripTalkCard></TripTalkCard>
+    </div>
     <div class="second-container">두 번째 영역</div>
     <div class="third-container">세 번째 영역</div>
   </div>
@@ -53,10 +61,9 @@ onMounted(() => {
 
 <style scoped>
 .first-container {
-  margin-top: 250px;
+  margin-top: 280px;
   width: 100%;
-  height: 500px;
-  background-color: aqua;
+  height: 700px;
   position: relative;
   z-index: 1;
 }

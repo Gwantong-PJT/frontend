@@ -28,12 +28,13 @@ function getModifyArticle(hotplaceNo, success, fail) {
 }
 
 function modifyArticle(article, success, fail) {
-  local.put(`/hotplace`, JSON.stringify(article)).then(success).catch(fail)
+  local.put(`/hotplace`, JSON.stringify(hotplace)).then(success).catch(fail)
 }
 
 function deleteArticle(hotplaceNo, success, fail) {
+
   local
-    .delete(`/hotplace/${hotplaceNo}`, {
+    .delete(`http://localhost:8520/hotplace/${hotplaceNo}`, {
       headers: {
         Jwt: sessionStorage.getItem('refreshToken'),
         'User-Id': sessionStorage.getItem('userId'),

@@ -75,18 +75,6 @@ const moveWrite = () => {
         <hr />
         <table class="board-table">
           <thead>
-            <tr>
-              <th>글번호</th>
-              <th>제목</th>
-              <th>작성자</th>
-              <th>작성일</th>
-              <th>파일</th>
-            </tr>
-            <tr>
-              <td colspan="5">
-                <hr />
-              </td>
-            </tr>
           </thead>
           <tbody>
             <BoardListItem
@@ -109,7 +97,7 @@ const moveWrite = () => {
 
 <style scoped>
 .container {
-  width: 100%;
+  width: 80%;
   padding: 20px;
 }
 
@@ -119,15 +107,9 @@ const moveWrite = () => {
   align-items: center;
 }
 
-.title {
-  width: 90%;
-  margin: 40px 0;
-  padding: 10px 0;
-  text-align: center;
-}
-
 .content {
-  width: 90%;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .search-bar {
@@ -182,7 +164,7 @@ const moveWrite = () => {
 }
 
 .board-table {
-  width: 100%;
+  width: 1100px;
   border-collapse: collapse;
   margin-top: 10px;
 }
@@ -194,5 +176,12 @@ const moveWrite = () => {
 .board-table thead hr {
   border: 1px solid #ddd;
   margin: 0;
+}
+.row {
+  margin-top: 50px;
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 수평 가운데 정렬 */
+  justify-content: center; /* 수직 가운데 정렬 */ 
 }
 </style>

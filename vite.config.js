@@ -9,7 +9,7 @@ export default defineConfig({
   plugins: [vue(), vueDevTools()],
   server: {
     proxy: {
-      '/api': 'http://192.168.203.121:8520',
+      '/api': 'http://localhost:8520',
     },
   },
   resolve: {

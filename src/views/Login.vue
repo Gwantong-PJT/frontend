@@ -15,7 +15,9 @@ const changeToLogin = () => {
 
 <template>
   <div class="login-wrapper">
-    <div class="background"></div>
+    <div class="background">
+      <img src="@/assets/img/main.jpg" alt="">
+    </div>
     <!-- 로그인 화면 -->
     <LoginComponent v-if="showLogin" @changeToSignUp="changeToSignUp" />
 
@@ -25,8 +27,10 @@ const changeToLogin = () => {
 </template>
 
 <style scoped>
-.background {
-  background-image: url(../assets/img/image.png);
+
+img{
+  width: 100%;
+  height: 100vh;
 }
 .login-wrapper {
   display: grid;

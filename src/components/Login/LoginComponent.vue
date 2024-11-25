@@ -24,7 +24,7 @@ const handleLogin = async () => {
     formData.append('userPassword', password.value)
 
     response = await axios.post(
-      'http://192.168.203.115:8520/user/login',
+      'http://localhost:8520/user/login',
       JSON.stringify(loginUser),
       {
         headers: { 'Content-Type': 'application/json' },
@@ -55,7 +55,7 @@ const handleLogin = async () => {
 
 <template>
   <div class="content">
-    <img src="@/assets/img/logo_img.png" alt="Logo" class="logo-image" />
+    <img src="@/assets/img/logo_img2.png" alt="Logo" class="logo-image" />
     <div class="login-box">
       <input type="text" v-model="userId" placeholder="아이디" required />
       <input type="password" v-model="password" placeholder="비밀번호" required /><br /><br />
@@ -112,7 +112,7 @@ button {
   margin: 5px auto;
   text-align: center;
   background: rgb(112, 87, 135);
-  background: linear-gradient(#b4bde2 15%, #9ea6c6 28%, #f0aab4 86%, #906a74 100%, #8288a3 100%);
+  background: linear-gradient(#eed3b7 15%, #f3b462 28%, #8a3d24 86%, #906a74 100%, #45090b 100%);
   box-shadow:
     0 14px 28px rgba(0, 0, 0, 0.25),
     0 10px 10px rgba(0, 0, 0, 0.22);
@@ -128,7 +128,7 @@ input {
 }
 
 .login-btn {
-  background: #866497;
+  background: #d67d64;
   border: none;
   z-index: 1;
 }
@@ -140,7 +140,7 @@ input {
   top: 0;
   right: 0;
   z-index: -1;
-  background-color: #4b1ef0;
+  background-color: #c94242;
   border-radius: 5px;
   box-shadow:
     inset 2px 2px 2px 0px rgba(255, 255, 255, 0.5),

@@ -1,3 +1,3 @@
 export const devServer = {
-  proxy: 'http://192.168.203.121:8520',
+  proxy: 'http:/localhost:8520',
 }

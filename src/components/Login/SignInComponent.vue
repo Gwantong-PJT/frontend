@@ -203,7 +203,7 @@ button {
   width: 100%; /* 버튼도 입력 필드와 동일한 너비로 설정 */
   height: 40px; /* 버튼 크기 설정 */
   margin-top: 20px;
-  background-color: #ce7e90; /* 버튼 색상 */
+  background-color: #d67d64; /* 버튼 색상 */
   color: white;
   border: none;
   border-radius: 5px;
@@ -212,7 +212,7 @@ button {
 }
 
 button:hover {
-  background-color: #544161; /* 버튼 hover 시 색상 변경 */
+  background-color: #c94242; /* 버튼 hover 시 색상 변경 */
 }
 
 .btn-container {
