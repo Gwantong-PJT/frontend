@@ -18,7 +18,14 @@ const ageValue = ref('')
 const userRegion = ref('') // sidoCode 저장
 
 const fetchAgeList = async () => {
-  const response = await axios.get('http://192.168.203.115:8520/list/age')
+
+  const response = await axios.get('http://localhost:8520/list/age',{
+      headers:{
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    })
+
   if (response.status === 200) {
     const res = response.data
     for (const data of res) {
@@ -36,7 +43,14 @@ const onChangeAge = (selectedOption) => {
 }
 
 const fetchSidoList = async () => {
-  const response = await axios.get('http://192.168.203.115:8520/list/sido')
+
+  const response = await axios.get('http://localhost:8520/list/sido',{
+      headers:{
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    })
+
   if (response.status === 200) {
     const res = response.data
     for (const data of res) {
@@ -83,7 +97,14 @@ const handleSignUp = async () => {
   }
 
   try {
-    const response = await axios.post('http://192.168.203.115:8520/user/signup', signupData)
+
+    const response = await axios.post('http://localhost:8520/user/signup', signupData,{
+      headers:{
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    })
+
     if (response.status === 200) {
       alert('회원가입이 완료되었습니다!')
       emit('changeToLogin')

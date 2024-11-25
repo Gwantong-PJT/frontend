@@ -36,8 +36,14 @@ const submitForm = async () => {
     let response
     if (props.type === 'modify') {
       // 수정 요청
-      response = await axios.put('http://192.168.203.115:8520/hotplace/', hotplace, {
-        headers: { 'Content-Type': 'application/json' },
+
+      response = await axios.put('http://localhost:8520/hotplace/', article, {
+        headers: {
+           'Content-Type': 'application/json',
+           'Jwt' : sessionStorage.getItem('refreshToken'),
+           'User-Id': sessionStorage.getItem('userId')
+          },
+
       })
     } else {
       // 등록 요청
@@ -46,8 +52,14 @@ const submitForm = async () => {
       formData.append('hotplaceText', hotplaceText.value)
       formData.append('userNo', 1)
 
-      response = await axios.post('/hotplace/', formData, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+
+      response = await axios.post('http://localhost:8520/hotplace/', formData, {
+        headers: {
+           'Content-Type': 'application/json',
+           'Jwt' : sessionStorage.getItem('refreshToken'),
+           'User-Id': sessionStorage.getItem('userId')
+          },
+
       })
     }
 
