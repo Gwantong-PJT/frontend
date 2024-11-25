@@ -13,6 +13,7 @@ const hotplace = ref({
   hotplaceTitle: '',
   hotplaceText: '',
   hotplaceDate: '',
+  pictures: '',
 })
 
 onMounted(() => {
@@ -99,12 +100,19 @@ const { hotplaceNo } = route.params
             alt="User Avatar"
           />
           <div class="details">
-            <span class="name">admin</span>
+            <span class="name">{{ hotplace.userName }}</span>
             <span class="meta">{{ hotplace.hotplaceDate }}</span>
           </div>
         </div>
       </div>
       <hr class="divider" />
+      <div>
+        <img
+          v-for="pic in hotplace.pictures"
+          :key="pic.pictureNo"
+          :src="'http://localhost:8520/' + pic.pictureUrl"
+        />
+      </div>
       <div class="content-body">{{ hotplace.hotplaceText }}</div>
       <hr class="divider" />
       <!-- <span>첨부파일: </span>

@@ -1,12 +1,12 @@
 <script setup>
 import { ref } from 'vue'
-defineProps({ selectOption: Array })
+const props = defineProps({ selectOption: Array })
 const emit = defineEmits(['onKeySelect'])
 
 const key = ref('') // 선택된 value 값
 
 const onSelect = () => {
-  const selectedOption = selectOption.find((option) => option.value === key.value)
+  const selectedOption = props.selectOption.find((option) => option.value === key.value)
   if (selectedOption) {
     emit('onKeySelect', selectedOption.text) // 선택된 text 값 전달
   }

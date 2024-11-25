@@ -18,13 +18,12 @@ const ageValue = ref('')
 const userRegion = ref('') // sidoCode 저장
 
 const fetchAgeList = async () => {
-
-  const response = await axios.get('http://localhost:8520/list/age',{
-      headers:{
-        Jwt: sessionStorage.getItem('refreshToken'),
-        'User-Id': sessionStorage.getItem('userId')
-      }
-    })
+  const response = await axios.get('http://localhost:8520/list/age', {
+    headers: {
+      Jwt: sessionStorage.getItem('refreshToken'),
+      'User-Id': sessionStorage.getItem('userId'),
+    },
+  })
 
   if (response.status === 200) {
     const res = response.data
@@ -43,13 +42,7 @@ const onChangeAge = (selectedOption) => {
 }
 
 const fetchSidoList = async () => {
-
-  const response = await axios.get('http://localhost:8520/list/sido',{
-      headers:{
-        Jwt: sessionStorage.getItem('refreshToken'),
-        'User-Id': sessionStorage.getItem('userId')
-      }
-    })
+  const response = await axios.get('http://localhost:8520/list/sido')
 
   if (response.status === 200) {
     const res = response.data
@@ -90,19 +83,17 @@ const handleSignUp = async () => {
     userName: userName.value || null,
     userRole: '',
     userProfile: '',
-    ageNo: ageNo.text || null,
-    userRegion: userRegion.text || null,
-    ageValue: ageValue.value,
+    ageNo: ageNo.value || null,
+    userRegion: userRegion.value || null,
     userSex: userSex.value || null,
   }
 
   try {
-
-    const response = await axios.post('http://localhost:8520/user/signup', signupData,{
-      headers:{
+    const response = await axios.post('http://localhost:8520/user/signup', signupData, {
+      headers: {
         Jwt: sessionStorage.getItem('refreshToken'),
-        'User-Id': sessionStorage.getItem('userId')
-      }
+        'User-Id': sessionStorage.getItem('userId'),
+      },
     })
 
     if (response.status === 200) {
@@ -152,7 +143,7 @@ onMounted(() => {
         <label for="ageNo">연령</label>
         <div class="filters">
           <div class="filter-item">
-            <VSelect :select-option="ageList" @on-key-select="onChangeAge" id="ageNo"></VSelect>
+            <VSelect :selectOption="ageList" @on-key-select="onChangeAge" id="ageNo"></VSelect>
           </div>
         </div>
         <br />
@@ -162,7 +153,7 @@ onMounted(() => {
         <div class="filters">
           <div class="filter-item">
             <VSelect
-              :select-option="sidoList"
+              :selectOption="sidoList"
               @on-key-select="onChangeSido"
               id="userRegion"
             ></VSelect>

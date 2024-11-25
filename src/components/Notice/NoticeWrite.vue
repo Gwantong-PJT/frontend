@@ -5,8 +5,7 @@ import NoticeFormItem from '../Generic/NoticeFormItem.vue'
 <template>
   <div class="write-container">
     <div class="write-header">
-      <h2>공지사항 작성</h2>
-      <hr />
+      <h2>나의 경험 공유하기</h2>
     </div>
     <div>
       <NoticeFormItem></NoticeFormItem>
@@ -25,8 +24,10 @@ import NoticeFormItem from '../Generic/NoticeFormItem.vue'
 
 .write-header {
   text-align: center;
-  margin-bottom: 20px;
-  width: 90%;
+  margin-bottom: 10px;
+  padding: 10px;
+  width: 250px;
+  height: 120px;
 }
 
 .write-header h2 {

@@ -23,7 +23,6 @@ const handleLogin = async () => {
     formData.append('userId', userId.value)
     formData.append('userPassword', password.value)
 
-
     response = await axios.post(
       'http://192.168.203.115:8520/user/login',
       JSON.stringify(loginUser),
@@ -48,7 +47,6 @@ const handleLogin = async () => {
     } else {
       alert('아이디 또는 비밀번호가 잘못되었습니다.')
     }
-
   } catch (error) {
     console.error('API 요청 오류', error)
   }
@@ -57,7 +55,7 @@ const handleLogin = async () => {
 
 <template>
   <div class="content">
-    <img src="@/assets/img/logo.png" alt="Logo" class="logo-image" />
+    <img src="@/assets/img/logo_img.png" alt="Logo" class="logo-image" />
     <div class="login-box">
       <input type="text" v-model="userId" placeholder="아이디" required />
       <input type="password" v-model="password" placeholder="비밀번호" required /><br /><br />
@@ -174,5 +172,9 @@ input {
   gap: 5px;
   justify-self: center;
   justify-content: end;
+}
+
+.logo-image {
+  width: 300px;
 }
 </style>

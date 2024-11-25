@@ -6,20 +6,32 @@ import { detailArticle } from '@/api/board'
 
 const hotplaceTitle = ref('')
 const hotplaceText = ref('')
+const pictures = ref(['', '', '']) // 최대 3개의 이미지 URL을 저장
+const userNo = ref('')
 
 const router = useRouter()
 const route = useRoute()
 
-const props = defineProps({ type: String, hotplaceNo: [String, Number] })
+onMounted(() => {
+  userNo.value = sessionStorage.getItem('userNo')
+})
 
-// 파일 처리
-const onFileChange = (event) => {
+const handleFileChange = (event, index) => {
   const file = event.target.files[0]
   if (file) {
-    hotplaceImage.value = file
-    console.log('선택한 파일:', file)
+    const reader = new FileReader()
+    reader.onload = () => {
+      pictures.value[index] = reader.result
+    }
+    reader.readAsDataURL(file)
   }
 }
+
+const removeImage = (index) => {
+  pictures.value[index] = ''
+}
+
+const props = defineProps({ type: String, hotplaceNo: [String, Number] })
 
 // 폼 제출
 const submitForm = async () => {
@@ -29,7 +41,7 @@ const submitForm = async () => {
     userNo: 1, // 작성자 번호 (예시로 1 사용)
     hotplaceTitle: hotplaceTitle.value,
     hotplaceText: hotplaceText.value,
-    hotplaceDate: new Date().toISOString(), // 날짜 형식에 맞게 변환
+    pictures: pictures.value,
   }
 
   try {
@@ -39,27 +51,29 @@ const submitForm = async () => {
 
       response = await axios.put('http://localhost:8520/hotplace/', article, {
         headers: {
-           'Content-Type': 'application/json',
-           'Jwt' : sessionStorage.getItem('refreshToken'),
-           'User-Id': sessionStorage.getItem('userId')
-          },
-
+          'Content-Type': 'application/json',
+          Jwt: sessionStorage.getItem('refreshToken'),
+          'User-Id': sessionStorage.getItem('userId'),
+        },
       })
     } else {
       // 등록 요청
       const formData = new FormData()
       formData.append('hotplaceTitle', hotplaceTitle.value)
       formData.append('hotplaceText', hotplaceText.value)
-      formData.append('userNo', 1)
-
+      formData.append('userNo', userNo.value)
+      pictures.value.forEach((picture, index) => {
+        if (picture) {
+          formData.append(`picture${index + 1}`, picture) // 개별적으로 추가
+        }
+      })
 
       response = await axios.post('http://localhost:8520/hotplace/', formData, {
         headers: {
-           'Content-Type': 'application/json',
-           'Jwt' : sessionStorage.getItem('refreshToken'),
-           'User-Id': sessionStorage.getItem('userId')
-          },
-
+          'Content-Type': 'multipart/form-data',
+          Jwt: sessionStorage.getItem('refreshToken'),
+          'User-Id': sessionStorage.getItem('userId'),
+        },
       })
     }
 
@@ -82,7 +96,6 @@ if (props.type === 'modify') {
       ({ data }) => {
         hotplaceTitle.value = data.hotplaceTitle
         hotplaceText.value = data.hotplaceText
-        hotplaceFileReal.value = data.hotplaceFileReal // 기존 파일명 저장
       },
       (error) => {
         console.log(error)
@@ -92,32 +105,151 @@ if (props.type === 'modify') {
 }
 </script>
 <template>
-  <form @submit.prevent="submitForm" enctype="multipart/form-data">
-    <div>
-      <label for="hotplaceTitle">제목</label>
-      <input v-model="hotplaceTitle" id="hotplaceTitle" type="text" required />
-    </div>
-    <div>
-      <label for="hotplaceText">내용</label>
-      <textarea v-model="hotplaceText" id="hotplaceText" required></textarea>
-    </div>
-    <div>
-      <label for="hotplaceImage">이미지</label>
-      <input id="hotplaceImage" type="file" @change="onFileChange" />
-      <button type="button" @click="uploadImage">이미지 업로드</button>
-      <ul>
-        <li v-for="(picture, index) in pictures" :key="index">
-          {{ picture.pictureUrl }}
-        </li>
-      </ul>
-    </div>
-    <button type="submit" v-if="props.type === 'modify'">수정</button>
-    <button type="submit" v-else>등록</button>
+  <form class="form-box" @submit.prevent="submitForm">
+    <table>
+      <tr>
+        <td class="header">Title</td>
+      </tr>
+      <tr>
+        <td>
+          <input
+            type="text"
+            v-model="hotplaceTitle"
+            id="hotplaceTitle"
+            placeholder="제목을 입력하세요"
+            name="title"
+            required
+          />
+        </td>
+      </tr>
+      <tr>
+        <td class="header">Comment</td>
+      </tr>
+      <tr>
+        <td>
+          <textarea
+            v-model="hotplaceText"
+            id="hotplaceText"
+            required
+            placeholder="내용을 입력하세요"
+            name="detail"
+          ></textarea>
+        </td>
+      </tr>
+      <tr>
+        <td class="header">Image</td>
+      </tr>
+      <tr>
+        <td>
+          <div class="image-container">
+            <div v-for="(picture, index) in pictures" :key="index" class="addImage">
+              <input
+                type="file"
+                accept="image/*"
+                @change="handleFileChange($event, index)"
+                style="display: none"
+                :id="'file-input-' + index"
+              />
+              <label :for="'file-input-' + index">
+                <img v-if="picture" :src="picture" class="preview-image" />
+                <span v-else>이미지 추가</span>
+              </label>
+              <button
+                class="remove-button"
+                v-if="picture"
+                type="button"
+                @click="removeImage(index)"
+              >
+                삭제
+              </button>
+            </div>
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <button type="submit" v-if="props.type === 'modify'" onclick="alert('작성 완료!')">
+            수정
+          </button>
+          <button class="submit-button" type="submit" v-else @click="submitForm">등록</button>
+        </td>
+      </tr>
+    </table>
   </form>
 </template>
 
 <style scoped>
 a {
   text-decoration: none;
+}
+
+.form-box {
+  width: 600px;
+  height: 650px;
+  background-color: #fbeff8;
+  border-radius: 10px;
+}
+
+table {
+  margin: auto;
+}
+input[type='text'] {
+  width: 500px;
+  height: 30px;
+  border-radius: 5px;
+  padding-left: 10px;
+  border: none;
+}
+textarea {
+  width: 500px;
+  height: 300px;
+  border-radius: 5px;
+  padding-left: 10px;
+  padding-top: 10px;
+  resize: none;
+  border: none;
+}
+.header {
+  height: 30px;
+}
+.image-container {
+  display: flex;
+  gap: 10px;
+}
+
+.addImage {
+  width: 110px;
+  height: 110px;
+  background-color: lightgray;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  text-align: center;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.preview-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-button {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  background-color: rgb(163, 84, 130);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 10px;
+  padding: 2px 5px;
+  cursor: pointer;
+}
+.submit-button {
 }
 </style>

@@ -5,15 +5,23 @@ import PhotoComponent from '@/components/Home/PhotoComponent.vue'
 
 const userName = ref('')
 const ageGroup = ref('')
+const genderGroup = ref('')
 
 onMounted(() => {
   // sessionStorage에서 값 가져오기
   userName.value = sessionStorage.getItem('userName') || '사용자' // 기본값 설정
   const ageNo = sessionStorage.getItem('ageNo')
+  const gender = sessionStorage.getItem('userSex')
   if (ageNo) {
     ageGroup.value = ageNo * 10 // ageNo에 10을 곱한 값 계산
   } else {
     ageGroup.value = '연령' // 기본값 설정
+  }
+
+  if (gender === '2') {
+    genderGroup.value = '여성'
+  } else {
+    genderGroup.value = '남성'
   }
 })
 </script>
@@ -23,8 +31,11 @@ onMounted(() => {
     <div class="graph-bar">
       <div class="graph-area">
         <div class="text-area">
-          <h2>{{ userName }}님이 속해있는</h2>
-          {{ ageGroup }}대 그룹에서 선호하는 여행지 추천
+          <h2>
+            <span class="blue">{{ userName }}</span> 님이 속해있는
+          </h2>
+          <span class="red">{{ ageGroup }}</span
+          >대 <span class="blue">{{ genderGroup }}</span> 그룹에서 선호하는 여행지 추천
         </div>
         <div class="graph-component">
           <GraphComponent></GraphComponent>
@@ -69,7 +80,7 @@ onMounted(() => {
   margin-top: 70px;
   width: 100%;
   height: 550px;
-  background-color: rgb(245, 215, 221);
+  background-color: rgb(247, 234, 237);
   z-index: 2;
 }
 
@@ -86,5 +97,12 @@ onMounted(() => {
 .text-area {
   margin-left: 70px;
   margin-top: 60px;
+}
+.blue {
+  color: blue;
+}
+
+.red {
+  color: red;
 }
 </style>
