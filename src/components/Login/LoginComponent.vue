@@ -23,24 +23,31 @@ const handleLogin = async () => {
     formData.append('userId', userId.value)
     formData.append('userPassword', password.value)
 
-    response = await axios.post('http://localhost:8520/user/login', JSON.stringify(loginUser), {
-      headers: { 'Content-Type': 'application/json' },
-    })
-    
-      if (response.status === 200) {
-        console.log("로그인 성공")
-        const refreshToken = response.data.jwt;
-        const userdto = response.data.userDto;
 
-        sessionStorage.setItem('refreshToken', refreshToken)
-        sessionStorage.setItem('userNo', userdto.userNo)
-        sessionStorage.setItem('userId', userdto.userId)
-        sessionStorage.setItem('userName', userdto.userName)
-        authStore.login()
-        router.push('/main')
-      } else {
-        alert('아이디 또는 비밀번호가 잘못되었습니다.')
-      }
+    response = await axios.post(
+      'http://192.168.203.115:8520/user/login',
+      JSON.stringify(loginUser),
+      {
+        headers: { 'Content-Type': 'application/json' },
+      },
+    )
+
+    if (response.status === 200) {
+      console.log('로그인 성공')
+      const refreshToken = response.data.jwt
+      const userdto = response.data.userDto
+
+      sessionStorage.setItem('refreshToken', refreshToken)
+      sessionStorage.setItem('userNo', userdto.userNo)
+      sessionStorage.setItem('userId', userdto.userId)
+      sessionStorage.setItem('userName', userdto.userName)
+      sessionStorage.setItem('ageNo', userdto.ageNo)
+      sessionStorage.setItem('userSex', userdto.userSex)
+      authStore.login()
+      router.push('/main')
+    } else {
+      alert('아이디 또는 비밀번호가 잘못되었습니다.')
+    }
 
   } catch (error) {
     console.error('API 요청 오류', error)

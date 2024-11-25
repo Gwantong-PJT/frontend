@@ -15,7 +15,7 @@ const totalPage = ref(0)
 
 const getHotpleList = async () => {
   try {
-    
+ 
     const response = await axios.get('http://localhost:8520/hotplace/',{
       headers:{
         Jwt: sessionStorage.getItem('refreshToken'),
@@ -23,6 +23,7 @@ const getHotpleList = async () => {
       }
     }
     )
+
     hotplaces.value = response.data
     if (response.status === 200) {
       console.log('pass')
@@ -65,9 +66,7 @@ const moveWrite = () => {
   <div class="container">
     <div class="row justify-content-center">
       <div class="title">
-        <h2>
-          커뮤니티
-        </h2>
+        <h2>커뮤니티</h2>
       </div>
       <div class="content">
         <div class="search-bar">

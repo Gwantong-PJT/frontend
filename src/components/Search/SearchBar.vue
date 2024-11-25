@@ -11,11 +11,11 @@ const keyWord = ref('')
 const sidoList = ref([{ text: '지역선택', value: '' }])
 const typeList = ref([{ text: '관광지선택', value: '' }])
 const attractionList = ref([]) // 관광지 결과 저장
-const searchListRef = ref(null); 
-
+const searchListRef = ref(null)
 
 // 시도 가져오기
 const fetchSidoList = async () => {
+
   console.log('http://localhost:8520/list/sido')
   const response = await axios.get('http://localhost:8520/list/sido',{
       headers: {
@@ -23,6 +23,7 @@ const fetchSidoList = async () => {
         'User-Id': sessionStorage.getItem('userId')
       }
     })
+
   if (response.status === 200) {
     console.log(response.data)
     const res = response.data
@@ -49,6 +50,7 @@ onMounted(() => {
 
 // 관광지 가져오기
 const fetchTypeList = async () => {
+
   console.log('http://localhost:8520/list/type')
   const response = await axios.get('http://localhost:8520/list/type',{
       headers: {
@@ -56,6 +58,7 @@ const fetchTypeList = async () => {
         'User-Id': sessionStorage.getItem('userId')
       }
     })
+
   if (response.status === 200) {
     console.log(response.data)
     const res = response.data
@@ -83,22 +86,24 @@ onMounted(() => {
 const handleSearch = async () => {
   try {
     const response = await axios.get(
+
       `http://localhost:8520/attraction/?contentTypeId=${type.value}&sidoCode=${sido.value}&keyWord=${keyWord.value}`,{
       headers: {
         Jwt: sessionStorage.getItem('refreshToken'),
         'User-Id': sessionStorage.getItem('userId')
       }
     }
+
     )
     if (response.status === 200) {
       console.log(response.data)
       attractionList.value = response.data
-      
+
       // 검색 후 스크롤 위치 최상단으로 이동
       if (searchListRef.value) {
         console.log(searchListRef.value)
         console.log(searchListRef.value.scrollTop)
-        searchListRef.value.scrollTop = 0;
+        searchListRef.value.scrollTop = 0
       }
     }
   } catch (error) {
@@ -109,7 +114,6 @@ const handleSearch = async () => {
 const handleSelectAttraction = (attraction) => {
   emit('selectAttraction', attraction)
 }
-
 </script>
 
 <template>
@@ -129,7 +133,10 @@ const handleSelectAttraction = (attraction) => {
       <button @click="handleSearch">검색</button>
     </div>
     <div class="search-list" ref="searchListRef">
-      <SearchList :attractionList="attractionList" @selectAttraction="handleSelectAttraction"></SearchList>
+      <SearchList
+        :attractionList="attractionList"
+        @selectAttraction="handleSelectAttraction"
+      ></SearchList>
     </div>
   </div>
 </template>
@@ -183,12 +190,12 @@ button:hover {
 }
 
 .search-list::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 .search-list::-webkit-scrollbar-thumb {
-    background-color: #919196;
+  background-color: #919196;
 }
 .search-list::-webkit-scrollbar-track {
-    background-color: rgba(182, 180, 180, 0.213);
+  background-color: rgba(182, 180, 180, 0.213);
 }
 </style>
