@@ -17,7 +17,12 @@ const searchListRef = ref(null);
 // 시도 가져오기
 const fetchSidoList = async () => {
   console.log('http://localhost:8520/list/sido')
-  const response = await axios.get('http://localhost:8520/list/sido')
+  const response = await axios.get('http://localhost:8520/list/sido',{
+      headers: {
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    })
   if (response.status === 200) {
     console.log(response.data)
     const res = response.data
@@ -45,7 +50,12 @@ onMounted(() => {
 // 관광지 가져오기
 const fetchTypeList = async () => {
   console.log('http://localhost:8520/list/type')
-  const response = await axios.get('http://localhost:8520/list/type')
+  const response = await axios.get('http://localhost:8520/list/type',{
+      headers: {
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    })
   if (response.status === 200) {
     console.log(response.data)
     const res = response.data
@@ -73,7 +83,12 @@ onMounted(() => {
 const handleSearch = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:8520/attraction/?contentTypeId=${type.value}&sidoCode=${sido.value}&keyWord=${keyWord.value}`,
+      `http://localhost:8520/attraction/?contentTypeId=${type.value}&sidoCode=${sido.value}&keyWord=${keyWord.value}`,{
+      headers: {
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    }
     )
     if (response.status === 200) {
       console.log(response.data)

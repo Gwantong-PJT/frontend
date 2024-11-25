@@ -33,8 +33,12 @@ const handleLogin = async () => {
       if (response.status === 200) {
         console.log("로그인 성공")
         const refreshToken = response.data.jwt;
+        const userdto = response.data.userDto;
 
         sessionStorage.setItem('refreshToken', refreshToken)
+        sessionStorage.setItem('userNo', userdto.userNo)
+        sessionStorage.setItem('userId', userdto.userId)
+        sessionStorage.setItem('userName', userdto.userName)
         authStore.login()
         router.push('/main')
       } else {

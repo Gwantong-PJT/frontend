@@ -7,7 +7,15 @@ function listArticle(param, success, fail) {
 }
 
 function detailArticle(hotplaceNo, success, fail) {
-  local.get(`/hotplace/${hotplaceNo}`).then(success).catch(fail)
+  local
+    .get(`/hotplace/${hotplaceNo}`, {
+      headers: {
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId'),
+      },
+    })
+    .then(success)
+    .catch(fail)
 }
 
 function registArticle(article, success, fail) {
@@ -24,7 +32,15 @@ function modifyArticle(article, success, fail) {
 }
 
 function deleteArticle(hotplaceNo, success, fail) {
-  local.delete(`/hotplace/${hotplaceNo}`).then(success).catch(fail)
+  local
+    .delete(`/hotplace/${hotplaceNo}`, {
+      headers: {
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId'),
+      },
+    })
+    .then(success)
+    .catch(fail)
 }
 
 export { listArticle, detailArticle, registArticle, getModifyArticle, modifyArticle, deleteArticle }

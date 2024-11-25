@@ -15,7 +15,14 @@ const totalPage = ref(0)
 
 const getHotpleList = async () => {
   try {
-    const response = await axios.get('http://localhost:8520/hotplace/')
+    
+    const response = await axios.get('http://localhost:8520/hotplace/',{
+      headers:{
+        Jwt: sessionStorage.getItem('refreshToken'),
+        'User-Id': sessionStorage.getItem('userId')
+      }
+    }
+    )
     hotplaces.value = response.data
     if (response.status === 200) {
       console.log('pass')
