@@ -3,50 +3,41 @@ import { ref, defineEmits, onMounted } from 'vue'
 import MyHotplaceListCompo from './MyHotplaceListCompo.vue'
 import axios from 'axios'
 
-const attractionList = ref([])
+const hotplaceList = ref([])
 
-onMounted(() =>{
-    handleSearch()
+onMounted(() => {
+  handleSearch()
 })
 
 const handleSearch = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:8520/attraction/like`,{
-      headers: {
-        Jwt: sessionStorage.getItem('refreshToken'),
-        'User-Id': sessionStorage.getItem('userId')
-      }
-    }
-
+      `http://localhost:8520/hotplace/user/${sessionStorage.getItem('userNo')}`,
+      {
+        headers: {
+          Jwt: sessionStorage.getItem('refreshToken'),
+          'User-Id': sessionStorage.getItem('userId'),
+        },
+      },
     )
     if (response.status === 200) {
       console.log(response.data)
-      attractionList.value = response.data
-
-      // 검색 후 스크롤 위치 최상단으로 이동
-    //   if (searchListRef.value) {
-    //     console.log(searchListRef.value)
-    //     console.log(searchListRef.value.scrollTop)
-    //     searchListRef.value.scrollTop = 0
-    //   }
+      hotplaceList.value = response.data
     }
   } catch (error) {
     console.error('검색 요청 실패', error)
   }
 }
-
-
 </script>
 
 <template>
-    <div class="search-list">
-      <MyHotplaceListCompo
-        :attractionList="attractionList"
-      ></MyHotplaceListCompo>
-    </div>
+  <div class="search-list">
+    <MyHotplaceListCompo
+      v-for="hotplace in hotplaceList"
+      :key="hotplace.hotplaceNo"
+      :hotplace="hotplace"
+    ></MyHotplaceListCompo>
+  </div>
 </template>
 
-<style scoped>
-
-</style>
+<style scoped></style>

@@ -1,130 +1,107 @@
 <script setup>
-import { defineProps, defineEmits, ref, onMounted } from 'vue';
-import '@fortawesome/fontawesome-free/js/all.js';
-import axios from 'axios';
-
-const props = defineProps({
-  attractionList: {
-    type: Array,
-    default: () => [],
-  },
-});
-
-// 이미지를 선택하는 함수
-const getImageSrc = (imagePath) => {
-  return imagePath && imagePath.trim() !== "" ? imagePath : new URL('@/assets/img/image.png', import.meta.url).href;
-};
-
-// 좋아요 버튼 눌렀을때 기능
-const likeEvent = async (attraction) => {
-  attraction.liked = !attraction.liked;
-
-  try {
-    const response = await axios.post(
-      `http://localhost:8520/attraction/like?attractionNo=${attraction.attractionNo}`,
-      null,
-      {
-        headers: {
-          'Content-Type': 'application/json',
-          Jwt: sessionStorage.getItem('refreshToken'),
-          'User-Id': sessionStorage.getItem('userId'),
-        },
-      }
-    );
-
-    if (response.status === 200) {
-      console.log('데이터 전송 성공');
-    } else {
-      console.error('데이터 전송 오류');
-    }
-  } catch (error) {
-    console.error('API 요청 오류', error);
-  }
-};
-
+defineProps({ hotplace: Object })
+const defaultImage = new URL('@/assets/img/no_photo.jpg', import.meta.url).href
 </script>
 
 <template>
-    <div class="search-list">
-    <ul>
-      <li v-for="(attraction, index) in attractionList" :key="index">
-        <div class="li-layout">
-          <div class="img-div">
-            <img :src="getImageSrc(attraction.firstImage1)" alt="이미지" />
-          </div>
-          <div class="content-div">
-            <h2 @click="testFunction(attraction)">{{ attraction.title }}</h2>
-            <span @click="testFunction(attraction)">{{ attraction.addr1 }}</span>
-          </div>
-          <!-- 좋아요 아이콘 -->
-          <div class="like" @click.stop="likeEvent(attraction)" v-show="attraction.liked">
-            <i class="fa-heart fa-solid heart-icon"></i>
-          </div>
-          <div class="like" @click.stop="likeEvent(attraction)" v-show="!attraction.liked">
-            <i class="fa-heart fa-regular heart-icon"></i>
-          </div>
+  <div class="container">
+    <div class="blog-left">
+      <div class="blog-profile">
+        <img class="blog-profile_image" src="@/assets/img/user.png" />
+        <div class="blog-profile_text">
+          <h4>{{ hotplace.userName }}</h4>
+          <p>{{ hotplace.hotplaceDate }}</p>
         </div>
-        <hr />
-      </li>
-    </ul>
+      </div>
+      <div class="blog-title">
+        <router-link
+          :to="{ name: 'article-view', params: { hotplaceNo: hotplace.hotplaceNo } }"
+          class="article-title link-dark"
+        >
+          <h2>{{ hotplace.hotplaceTitle }}</h2>
+        </router-link>
+      </div>
+      <div class="blog-content">
+        <p>{{ hotplace.hotplaceText }}</p>
+      </div>
+      <div class="blog-share">
+        <span>조회수 {{ hotplace.hotplaceViews }}</span>
+      </div>
+    </div>
+    <div class="blog-right">
+      <img
+        class="first-img"
+        :src="
+          hotplace.pictures && hotplace.pictures.length > 0
+            ? 'http://localhost:8520/' + hotplace.pictures[0].pictureUrl
+            : defaultImage
+        "
+        alt="대표 이미지"
+      />
+    </div>
   </div>
+  <hr />
 </template>
 
 <style scoped>
-.search-list {
-  max-height: 500px; 
-  overflow-y: auto; 
-  border: 1px solid #ccc; 
-  padding: 10px; 
+.container {
+  width: 1200px;
+  height: 200px;
 }
 
-ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.blog-left {
+  display: inline-block;
+  width: 70%;
+  height: 100%;
+  float: left;
 }
 
-li {
-  margin-bottom: 10px; 
+.blog-profile {
+  height: 20%;
 }
 
-.li-layout {
-  display: flex;
-  gap: 15px;
-  align-items: center;
-  position: relative; /* 아이콘을 절대 위치로 배치하기 위해 설정 */
+.blog-profile_image {
+  float: left;
+  width: 7%;
+  border-radius: 100%;
 }
 
-.img-div img {
-  width: 100px;
-  height: 70px;
+.blog-profile_text {
+  float: left;
+  font-size: 15px;
+  margin-left: 10px;
+  line-height: 0%;
 }
 
-.content-div {
-  display: flex;
-  flex-direction: column;
-  width: 220px;
-  overflow-x: hidden;
+.blog-title {
+  margin-left: 15px;
 }
 
-.content-div h2 {
-  font-size: 17px;
+.blog-content {
+  margin-left: 15px;
+  margin-top: -10px;
+  width: 400px;
+  font-size: 18px;
+  height: 40px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: gray;
   white-space: nowrap;
 }
 
-.content-div span {
-  font-size: 10px;
-  color: #232323;
+.blog-share {
+  margin-left: 15px;
 }
 
-/* 아이콘의 위치를 오른쪽 끝에 고정 */
-.heart-icon {
-  /* position: absolute; */
-  /* right: 10px;  오른쪽 끝에 배치 */
-  /* top: 50%; */
-  /* transform: translateY(-50%); 세로로 중앙 정렬 */
-  font-size: 20px;
-  color: #e74c3c; /* 원하는 색상 */
-  cursor: pointer;
+.blog-right {
+  width: 170px;
+  height: 170px;
+  float: left;
+  margin-left: 5px;
+  background-color: aqua;
+}
+.first-img {
+  width: 170px;
+  height: 170px;
 }
 </style>
