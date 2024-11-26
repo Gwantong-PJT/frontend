@@ -14,6 +14,7 @@ import MyHotplaceList from '@/components/MyPage/MyHotplaceList.vue';
       <!-- 2/3 크기 -->
       <div class="grid-item-2">
         <p>2/3 크기 컴포넌트</p>
+        <MyHotplaceList></MyHotplaceList>
       </div>
     </div>
   </template>

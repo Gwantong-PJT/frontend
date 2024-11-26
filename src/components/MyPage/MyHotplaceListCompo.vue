@@ -10,18 +10,10 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['selectAttraction']); // 부모 컴포넌트로 이벤트 전달
-
 // 이미지를 선택하는 함수
 const getImageSrc = (imagePath) => {
   return imagePath && imagePath.trim() !== "" ? imagePath : new URL('@/assets/img/image.png', import.meta.url).href;
 };
-
-// 컨텐츠 클릭 시 해당 위치로 지도 이동
-const testFunction = (attraction) => {
-  emit('selectAttraction', attraction);
-};
-
 
 // 좋아요 버튼 눌렀을때 기능
 const likeEvent = async (attraction) => {
@@ -53,7 +45,7 @@ const likeEvent = async (attraction) => {
 </script>
 
 <template>
-  <div class="search-list">
+    <div class="search-list">
     <ul>
       <li v-for="(attraction, index) in attractionList" :key="index">
         <div class="li-layout">
@@ -77,8 +69,6 @@ const likeEvent = async (attraction) => {
     </ul>
   </div>
 </template>
-
-
 
 <style scoped>
 .search-list {

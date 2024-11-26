@@ -84,6 +84,14 @@ defineProps({ hotplace: Object })
 
 .blog-content{
     margin-left: 15px;
+    margin-top: -10px;
+    width: 400px;
+    font-size: 18px;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: gray;
+    white-space: nowrap;
 }
 
 .blog-share{
