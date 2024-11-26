@@ -12,9 +12,11 @@ import MyLikeList from "@/components/MyPage/MyLikeList.vue";
         <MyPageComponent></MyPageComponent>
       </div>
       <!-- 2/3 크기 -->
-      <div class="grid-item-2"> 
+
+      <div class="grid-item-2">
+        <p>2/3 크기 컴포넌트</p>
         <MyHotplaceList></MyHotplaceList>
-        <MyLikeList></MyLikeList>
+
       </div>
     </div>
   </template>

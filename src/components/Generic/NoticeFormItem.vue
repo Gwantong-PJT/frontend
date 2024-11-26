@@ -168,7 +168,7 @@ if (props.type === 'modify') {
       </tr>
       <tr>
         <td>
-          <button type="submit" v-if="props.type === 'modify'" onclick="alert('작성 완료!')">
+          <button type="submit" v-if="props.type === 'modify'" @click="alert('작성 완료!')">
             수정
           </button>
           <button class="submit-button" type="submit" v-else>등록</button>
