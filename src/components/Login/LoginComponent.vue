@@ -55,7 +55,7 @@ const handleLogin = async () => {
 
 <template>
   <div class="content">
-    <img src="@/assets/img/logo_img2.png" alt="Logo" class="logo-image" />
+    <img src="@/assets/img/logo_white.png" alt="Logo" class="logo-image" />
     <div class="login-box">
       <input type="text" v-model="userId" placeholder="아이디" required />
       <input type="password" v-model="password" placeholder="비밀번호" required /><br /><br />

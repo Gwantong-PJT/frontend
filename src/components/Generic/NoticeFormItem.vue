@@ -64,7 +64,7 @@ const submitForm = async () => {
       formData.append('userNo', userNo.value)
       pictures.value.forEach((picture, index) => {
         if (picture) {
-          formData.append(`picture${index + 1}`, picture) // 개별적으로 추가
+          formData.append(`pictures`, picture) // 개별적으로 추가
         }
       })
 
@@ -171,7 +171,7 @@ if (props.type === 'modify') {
           <button type="submit" v-if="props.type === 'modify'" onclick="alert('작성 완료!')">
             수정
           </button>
-          <button class="submit-button" type="submit" v-else @click="submitForm">등록</button>
+          <button class="submit-button" type="submit" v-else>등록</button>
         </td>
       </tr>
     </table>

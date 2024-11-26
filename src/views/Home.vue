@@ -4,6 +4,7 @@ import GraphComponent from '@/components/Home/GraphComponent.vue'
 import PhotoComponent from '@/components/Home/PhotoComponent.vue'
 import TripTalk from '@/components/Home/TripTalk.vue';
 import TripTalkCard from '@/components/Home/TripTalkCard.vue';
+import HotpleList from "@/components/Home/HotpleList.vue";
 
 const userName = ref('')
 const ageGroup = ref('')
@@ -52,32 +53,37 @@ onMounted(() => {
     </div>
     <div class="first-container"> 
       <TripTalk></TripTalk>
-      <TripTalkCard></TripTalkCard>
+      <div class="card-container">
+        <TripTalkCard></TripTalkCard>
+        <TripTalkCard></TripTalkCard>
+        <TripTalkCard></TripTalkCard>
+        <TripTalkCard></TripTalkCard>
+      </div>
     </div>
-    <div class="second-container">두 번째 영역</div>
-    <div class="third-container">세 번째 영역</div>
-  </div>
+    <div class="second-container">
+      <HotpleList></HotpleList>
+      </div>
+    </div>
 </template>
 
 <style scoped>
 .first-container {
-  margin-top: 280px;
+  margin-top: 250px;
   width: 100%;
   height: 700px;
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
 }
 
 .second-container {
   width: 100%;
-  height: 400px;
-  background-color: blue;
-}
-
-.third-container {
-  width: 100%;
-  height: 400px;
-  background-color: bisque;
+  height: 500px;
+ 
 }
 
 .graph-bar {
@@ -111,5 +117,11 @@ onMounted(() => {
 
 .red {
   color: red;
+}
+
+.card-container {
+  display: flex;
+  flex-direction: row;
+  gap:30px;
 }
 </style>

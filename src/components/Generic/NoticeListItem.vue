@@ -1,5 +1,9 @@
 <script setup>
+
 defineProps({ hotplace: Object })
+const defaultImage = new URL('@/assets/img/no_photo.jpg', import.meta.url).href
+
+
 </script>
 
 <template>
@@ -24,28 +28,19 @@ defineProps({ hotplace: Object })
                 <p>{{ hotplace.hotplaceText }}</p>
             </div>
             <div class="blog-share">
-                <span>조회수 {{ hotplace.view }}</span>
+                <span>조회수 {{ hotplace.hotplaceViews }}</span>
+            </div>
+            </div>
+            <div class="blog-right">
+                <img class = "first-img"
+                :src="hotplace.pictures && hotplace.pictures.length > 0 
+                        ? 'http://localhost:8520/' + hotplace.pictures[0].pictureUrl 
+                        : defaultImage"
+                alt="대표 이미지"
+                />
             </div>
         </div>
-        <div class="blog-right">
-            <img src="@/assets/img/image.png" width="100%" height="100%">
-        </div>
-    </div>
     <hr>
-
-
-  <!-- <tr class="text-center">
-    <th scope="row">{{ hotplace.hotplaceNo }}</th>
-    <td class="text-start">
-      <router-link
-        :to="{ name: 'article-view', params: { hotplaceNo: hotplace.hotplaceNo } }"
-        class="article-title link-dark"
-      >
-        {{ hotplace.hotplaceTitle }}
-      </router-link>
-    </td>
-    <td>{{ hotplace.hotplaceDate }}</td>
-  </tr> -->
 </template>
 
 <style scoped>
@@ -84,6 +79,14 @@ defineProps({ hotplace: Object })
 
 .blog-content{
     margin-left: 15px;
+    margin-top: -10px;
+    width: 400px;
+    font-size: 18px;
+    height: 40px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    color: gray;
+    white-space: nowrap;
 }
 
 .blog-share{
@@ -91,8 +94,15 @@ defineProps({ hotplace: Object })
 }
 
 .blog-right{
-    width: 18%;
+    width: 170px;
+    height: 170px;
     float: left;
     margin-left: 5px;
+    background-color: aqua;
 }
+.first-img {
+    width: 170px;
+    height: 170px;
+}
+
 </style>

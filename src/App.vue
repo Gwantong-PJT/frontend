@@ -11,7 +11,6 @@ authStore.initializeAuth()
 <template>
   <div class="wrapper">
     <Header v-if="authStore.isLoggedIn"> </Header>
-    <div class="header-line"></div>
     <main class="main">
       <RouterView />
     </main>
@@ -20,9 +19,5 @@ authStore.initializeAuth()
 </template>
 
 <style scoped>
-.header-line {
-  width: 100%;
-  height: 2px; /* 라인의 두께 */
-  background-color: #554f4f; /* 라인의 색상 */
-}
+
 </style>
