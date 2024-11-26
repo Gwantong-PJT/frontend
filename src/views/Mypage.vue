@@ -1,6 +1,7 @@
 <script setup>
 import MyPageComponent from '@/components/MyPage/MyPageComponent.vue';
 import MyHotplaceList from '@/components/MyPage/MyHotplaceList.vue';
+import MyLikeList from "@/components/MyPage/MyLikeList.vue";
 
 </script>
 
@@ -8,13 +9,14 @@ import MyHotplaceList from '@/components/MyPage/MyHotplaceList.vue';
     <div class="grid-container">
       <!-- 1/3 크기 -->
       <div class="grid-item-1">
-        <p>1/3 크기 컴포넌트</p>
         <MyPageComponent></MyPageComponent>
       </div>
       <!-- 2/3 크기 -->
+
       <div class="grid-item-2">
         <p>2/3 크기 컴포넌트</p>
         <MyHotplaceList></MyHotplaceList>
+
       </div>
     </div>
   </template>

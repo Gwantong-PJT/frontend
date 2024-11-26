@@ -14,7 +14,7 @@ const emit = defineEmits(['selectAttraction']); // 부모 컴포넌트로 이벤
 
 // 이미지를 선택하는 함수
 const getImageSrc = (imagePath) => {
-  return imagePath && imagePath.trim() !== "" ? imagePath : new URL('@/assets/img/image.png', import.meta.url).href;
+  return imagePath && imagePath.trim() !== "" ? imagePath : new URL('@/assets/img/no_photo.jpg', import.meta.url).href;
 };
 
 // 컨텐츠 클릭 시 해당 위치로 지도 이동

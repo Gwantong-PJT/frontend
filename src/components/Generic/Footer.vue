@@ -19,6 +19,7 @@ footer {
   text-align: center;
   padding: 10px 0;
   font-size: 14px;
+  background-color: white;
 }
 
 .wrapper {

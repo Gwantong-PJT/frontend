@@ -35,28 +35,6 @@ const getArticle = () => {
 
 const downloadUrl = ref('')
 
-// 파일 다운로드
-// const downloadFile = async () => {
-//   try {
-//     const response = await axios.get(`http://192.168.203.115:8520/hotplace/${hotplaceNo}/download`, {
-//       responseType: 'blob',
-//     })
-
-//     const url = window.URL.createObjectURL(new Blob([response.data]))
-//     downloadUrl.value = url
-//     const link = document.createElement('a')
-//     link.href = url
-//     link.setAttribute('download', article.value.noticeFileReal)
-//     document.body.appendChild(link)
-//     link.click()
-//     link.remove()
-
-//     console.log('다운로드 성공')
-//   } catch (error) {
-//     console.error('파일 다운로드 오류:', error)
-//   }
-// }
-
 console.log('다운로드url: ', downloadUrl)
 
 function moveList() {
@@ -115,8 +93,6 @@ const { hotplaceNo } = route.params
       </div>
       <div class="content-body">{{ hotplace.hotplaceText }}</div>
       <hr class="divider" />
-      <!-- <span>첨부파일: </span>
-      <a :href="downloadUrl" @click.prevent="downloadFile" download>{{ hotplace.hotplaceFileReal }}</a> -->
       <hr class="divider" />
       <div class="actions">
         <button class="btn" @click="moveList">글목록</button>
@@ -219,7 +195,12 @@ const { hotplaceNo } = route.params
   font-size: 1rem;
   line-height: 1.5;
   margin-bottom: 20px;
+  width: 100%; /* 부모 컨테이너 너비에 맞추기 */
+  word-wrap: break-word; /* 긴 단어를 잘라 다음 줄로 넘김 */
+  overflow-wrap: break-word; /* 긴 단어를 자동으로 다음 줄로 넘김 */
+  white-space: normal; /* 텍스트가 한 줄에 모두 표시되지 않도록 설정 */
 }
+
 
 .actions {
   display: flex;

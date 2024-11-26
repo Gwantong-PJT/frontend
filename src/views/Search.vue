@@ -74,7 +74,7 @@ const updateMapPosition = (attraction) => {
     marker.value.setMap(map.value);
 
     if(attraction.firstImage1 == "") {
-      attraction.firstImage1 = new URL('@/assets/img/image.png', import.meta.url).href;
+      attraction.firstImage1 = new URL('@/assets/img/no_photo.jpg', import.meta.url).href;
     }
 
     // 오버레이 내용 업데이트
@@ -182,7 +182,7 @@ body {
 .wrap {
   width: 200px;
   height: 205px;
-  background-color: #ffffffcf;
+  background-color: #ffffffe1;
   box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
   border-radius: 8px;
   overflow: hidden;
