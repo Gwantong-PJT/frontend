@@ -7,7 +7,14 @@ const defaultImage = new URL('@/assets/img/no_photo.jpg', import.meta.url).href
   <div class="container">
     <div class="blog-left">
       <div class="blog-profile">
-        <img class="blog-profile_image" src="@/assets/img/user.png" />
+        <img
+          class="blog-profile_image"
+          :src="
+            hotplace.userProfile === 'null' || hotplace.userProfile === null
+              ? defaultUserImage
+              : 'http://localhost:8520/' + hotplace.userProfile
+          "
+        />
         <div class="blog-profile_text">
           <h4>{{ hotplace.userName }}</h4>
           <p>{{ hotplace.hotplaceDate }}</p>

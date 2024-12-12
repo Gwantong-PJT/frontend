@@ -145,7 +145,7 @@ const handleSelectAttraction = (attraction) => {
 .container {
   margin-top: 40px;
   width: 400px;
-  height: 750px;
+  height: 1000px;
   display: flex;
   flex-direction: column;
   background-color: rgba(255, 255, 255, 0.9); /* 반투명 배경 */
@@ -186,7 +186,7 @@ button:hover {
   background-color: #4b2852;
 }
 .search-list {
-  height: 520px;
+  height: 820px;
 }
 
 .search-list::-webkit-scrollbar {

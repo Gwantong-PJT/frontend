@@ -42,6 +42,7 @@ const handleLogin = async () => {
       sessionStorage.setItem('userName', userdto.userName)
       sessionStorage.setItem('ageNo', userdto.ageNo)
       sessionStorage.setItem('userSex', userdto.userSex)
+      sessionStorage.setItem('userProfile', userdto.userProfile)
       authStore.login()
       router.push('/main')
     } else {

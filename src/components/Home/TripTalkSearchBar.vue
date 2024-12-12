@@ -15,7 +15,7 @@ import VSelect from '../common/VSelect.vue';
     display: flex;
     width: 1200px;
     height: 50px;
-    background-color: rgb(200, 189, 254);
+    background-color: rgb(121, 115, 204);
     border-radius: 10px;
     border: none;
     color: rgb(246, 246, 246);
@@ -25,6 +25,7 @@ import VSelect from '../common/VSelect.vue';
 .large-text {
     font-size: 20pt;
     font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
 }
 span {
     margin-left: 15px;

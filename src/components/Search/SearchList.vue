@@ -82,7 +82,7 @@ const likeEvent = async (attraction) => {
 
 <style scoped>
 .search-list {
-  max-height: 500px; 
+  max-height: 760px; 
   overflow-y: auto; 
   border: 1px solid #ccc; 
   padding: 10px; 

@@ -1,6 +1,6 @@
 <template>
     <div class="chart-container">
-      <svg :viewBox="'0 0 200 200'" xmlns="http://www.w3.org/2000/svg" width="250" height="250">
+      <svg :viewBox="'0 0 200 200'" xmlns="http://www.w3.org/2000/svg" width="400" height="400">
         <path
           v-for="(segment, index) in segments"
           :key="index"
@@ -20,7 +20,7 @@
           alignment-baseline="middle"
           class="label"
         >
-          {{ segment.value }}
+          {{ segment.label }}
         </text>
       </svg>
     </div>
@@ -33,9 +33,13 @@
         radius: 80, // 반지름
         strokeWidth: 20, // 선 두께
         segments: [
-          { startAngle: 0, endAngle: 90, color: "#3498db", value: 25 },
-          { startAngle: 90, endAngle: 180, color: "#e74c3c", value: 35 },
-          { startAngle: 180, endAngle: 360, color: "#2ecc71", value: 40 },
+          { startAngle: 0, endAngle: 90, color: "#d65c93", value: 25, label: "해운대" },
+          { startAngle: 90, endAngle: 100, color: "#c975c7", value: 35,  label: "한강공원"},
+          { startAngle: 100, endAngle: 200, color: "#eda6de", value: 40, label: "광안리" },
+          { startAngle: 200, endAngle: 260, color: "#94c6eb", value: 20, label: "새별오름" },
+          { startAngle: 260, endAngle: 280, color: "#d19ba9", value: 20, label: "속초해수욕장" },
+          { startAngle: 280, endAngle: 330, color: "#8637ed", value: 20, label: "센텀시티" },
+          { startAngle: 330, endAngle: 360, color: "#d5c5eb", value: 20, label: "동궁과 월지" },
         ],
       };
     },
@@ -80,6 +84,8 @@
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     display: inline-block;
+    width: 400px;
+    height: 400px;
   }
   
   .arc {
@@ -87,6 +93,12 @@
     transition: stroke-dashoffset 0.5s ease, transform 0.2s ease-in-out;
   }
   
+  .label {
+  font-size: 10px; /* 폰트 크기를 줄임 */
+  fill: #333; /* 텍스트 색상 */
+  }
+
+
   .arc:hover {
     stroke-dashoffset: 0; /* 호버 시 offset을 0으로 */
     transform: scale(1.1);

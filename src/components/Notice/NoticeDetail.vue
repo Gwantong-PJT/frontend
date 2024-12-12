@@ -73,10 +73,14 @@ const { hotplaceNo } = route.params
       <div class="info">
         <div class="user">
           <img
-            class="avatar"
-            src="https://raw.githubusercontent.com/twbs/icons/main/icons/person-fill.svg"
-            alt="User Avatar"
-          />
+          class="avatar"
+          :src="
+            hotplace.userProfile === 'null' || hotplace.userProfile === null
+              ? defaultUserImage
+              : 'http://localhost:8520/' + hotplace.userProfile
+          "
+        />
+
           <div class="details">
             <span class="name">{{ hotplace.userName }}</span>
             <span class="meta">{{ hotplace.hotplaceDate }}</span>
@@ -108,7 +112,7 @@ const { hotplaceNo } = route.params
 
 <style scoped>
 .container {
-  width: 100%;
+  width: 1000px;
   padding: 20px;
 }
 

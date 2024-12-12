@@ -3,7 +3,6 @@ import { ref, onMounted } from 'vue'
 import GraphComponent from '@/components/Home/GraphComponent.vue'
 import PhotoComponent from '@/components/Home/PhotoComponent.vue'
 import TripTalk from '@/components/Home/TripTalk.vue';
-import TripTalkCard from '@/components/Home/TripTalkCard.vue';
 import HotpleList from "@/components/Home/HotpleList.vue";
 
 const userName = ref('')
@@ -46,18 +45,26 @@ onMounted(() => {
       </div>
       <div class="photo-area">
         <div class="textArea">
-          <span>{{ ageGroup }}대 {{ genderGroup }} 선호도 인기 순위</span>
+          <span class="best-text">{{ ageGroup }}대 {{ genderGroup }} 선호도 인기 순위</span>
         </div>
         <PhotoComponent></PhotoComponent>
       </div>
     </div>
-    <div class="first-container"> 
+    <div class="first-container">
       <TripTalk></TripTalk>
       <div class="card-container">
-        <TripTalkCard></TripTalkCard>
-        <TripTalkCard></TripTalkCard>
-        <TripTalkCard></TripTalkCard>
-        <TripTalkCard></TripTalkCard>
+        <div class="img1">
+          <p class="text-overlay">위양지</p>
+        </div>
+        <div class="img2">
+          <p class="text-overlay">흰여울문화마을</p>
+        </div>
+        <div class="img3">
+          <p class="text-overlay">순천만 국가정원</p>
+        </div>
+        <div class="img4">
+          <p class="text-overlay">곤지암 화담숲</p>
+        </div>
       </div>
     </div>
     <div class="second-container">
@@ -86,13 +93,79 @@ onMounted(() => {
  
 }
 
+.img1 {
+  width: 250px;
+  height: 350px;
+  border-radius: 10px;
+  background-image: url('@/assets/img/milyang.jpg');
+  background-size: cover;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+.text-overlay {
+  position: absolute;
+  bottom: 10px;
+  right: 10px;
+  color: white;
+  font-size: 19px;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.7);
+  padding: 5px 10px;
+  border-radius: 5px;
+  margin: 0;
+}
+
+.img2 {
+  width: 250px;
+  height: 350px;
+  border-radius: 10px;
+  background-image: url('@/assets/img/busan.jpg');
+  background-size: cover;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+.img3 {
+  width: 250px;
+  height: 350px;
+  border-radius: 10px;
+  background-image: url('@/assets/img/soonchun.jpg');
+  background-size: cover;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+.img4 {
+  width: 250px;
+  height: 350px;
+  border-radius: 10px;
+  background-image: url('@/assets/img/soop.jpg');
+  background-size: cover;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+  position: relative;
+}
+
+
 .graph-bar {
   display: grid;
   grid-template-columns: 3fr 7fr;
   gap: 10px;
   margin-top: 70px;
   width: 100%;
-  height: 550px;
+  height: 650px;
   background-color: rgb(247, 234, 237);
   z-index: 2;
 }
@@ -124,4 +197,10 @@ onMounted(() => {
   flex-direction: row;
   gap:30px;
 }
+
+.best-text {
+  font-size: 30px;
+  font-weight: bolder;
+}
+
 </style>
